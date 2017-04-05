@@ -1,10 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import List from './components/List'
-
-
-
+import LogEntryDetail from './components/LogEntryDetail'
 
 const App = () => {
   return (
@@ -12,7 +10,8 @@ const App = () => {
         <BrowserRouter>
           <div>
             <Switch>
-              <Route exact path="/" render={(props) => <List {...props} />} />
+              <Route exact path="/log" render={(props) => <List {...props} />} />
+              <Route path="/log/:id" render={(props) => <LogEntryDetail {...props} />} />
             </Switch>
           </div>
         </BrowserRouter>
@@ -20,12 +19,4 @@ const App = () => {
   )
 }
 
-// const mapStateToProps = function (state) {
-//   return {
-//     log: state.log,
-//     isDataLoaded: state.isDataLoaded
-//   }
-// }
-
-//const connector = connect(mapStateToProps)
 export default App

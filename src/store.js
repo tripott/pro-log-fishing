@@ -26,40 +26,47 @@ const logReducer = (log = initialLog, action) => {
     }
 }
 
-const counterReducer = function(counter = 0, action) {
-    switch (action.type) {
-        case 'INCR':
-            return counter + 1
-        case 'DECR':
-            return counter - 1
-        default:
-            return counter
-    }
-}
+// const counterReducer = function(counter = 0, action) {
+//     switch (action.type) {
+//         case 'INCR':
+//             return counter + 1
+//         case 'DECR':
+//             return counter - 1
+//         default:
+//             return counter
+//     }
+// }
 
-const loadingReducer = function(isDataLoaded = true, action) {
+const dbStatusReducer = function(status = "unknown", action) {
     switch (action.type) {
-        case 'LOADING':
-            return false
-        case 'LOADED':
-            return true
+        case 'LOADING_DATA':
+            return action.payload
+        case 'SYNC_CHANGE':
+            return action.payload
+        case 'SYNC_PAUSED':
+            return action.payload
+        case 'SYNC_ACTIVE':
+            return action.payload
+        case 'SYNC_DENIED':
+            return action.payload
+        case 'SYNC_ERROR':
+            return action.payload
         default:
-            return isDataLoaded
+            return status
     }
 }
 
 const store = createStore(
     combineReducers({
         log: logReducer,
-        counter: counterReducer,
-        isDataLoaded: loadingReducer
+        dbStatus: dbStatusReducer
     }))
 
-store.dispatch({
-    type: "LOADING",
-    payload: null
-})
 
+store.dispatch({
+    type: "LOADING_DATA",
+    payload: "Loading"
+})
 
 db.allDocs({
     include_docs: true
@@ -68,36 +75,78 @@ db.allDocs({
         type: "SET_LOG",
         payload: map(row => row.doc, result.rows)
     })
-}).then(function() {
-    store.dispatch({
-        type: "LOADED",
-        payload: null
-    })
 }).catch(function(err) {
     console.log(err);
 })
 
-db.changes({since: 'now', live: true, include_docs: true})
-.on('change', function(change) {
-    db.allDocs({
+db.changes({
+        live: true,
         include_docs: true
-    }).then(function(result) {
-        store.dispatch({
-            type: "SET_LOG",
-            payload: map(row => row.doc, result.rows)
+    })
+    .on('change', function(change) {
+
+        db.allDocs({
+            include_docs: true
+        }).then(function(result) {
+            store.dispatch({
+                type: "SET_LOG",
+                payload: map(row => row.doc, result.rows)
+            })
+        }).catch(function(err) {
+            console.log(err);
         })
-    }).then(function() {
+    }).on('complete', function(info) {
         store.dispatch({
-            type: "LOADED",
-            payload: null
+            type: "SYNC_COMPLETE",
+            payload: "Complete"
         })
-    }).catch(function(err) {
+    }).on('error', function(err) {
+        store.dispatch({
+            type: "SYNC_ERROR",
+            payload: "Error"
+        })
         console.log(err);
+    });
+
+
+//ciperilessitheandesseene:347fc61e0e4d46f825fb04000f89e9626915b3ec
+
+const sync = PouchDB.sync('fishing', 'https://ciperilessitheandesseene:347fc61e0e4d46f825fb04000f89e9626915b3ec@tripott.cloudant.com/fishing', {
+    live: true,
+    retry: true
+}).on('change', function(info) {
+    store.dispatch({
+        type: "SYNC_CHANGE",
+        payload: "Syncing"
+    })
+}).on('paused', function(err) {
+    // replication paused (e.g. replication up to date, user went offline)
+    store.dispatch({
+        type: "SYNC_PAUSED",
+        payload: "Paused"
+    })
+}).on('active', function() {
+    // replicate resumed (e.g. new changes replicating, user went back online)
+    store.dispatch({
+        type: "SYNC_ACTIVE",
+        payload: "Resumed"
+    })
+}).on('denied', function(err) {
+    // a document failed to replicate (e.g. due to permissions)
+    store.dispatch({
+        type: "SYNC_DENIED",
+        payload: "Data failed to replicate"
     })
 }).on('complete', function(info) {
-// changes() was canceled
+    store.dispatch({
+        type: "SYNC_COMPLETE",
+        payload: "Complete"
+    })
 }).on('error', function(err) {
-console.log(err);
+    store.dispatch({
+        type: "SYNC_ERROR",
+        payload: "Error"
+    })
 });
 
 export default store
