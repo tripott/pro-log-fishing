@@ -1,12 +1,17 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+
+  //console.log("REACT_APP_COUCHDB", process.env.REACT_APP_COUCHDB)
+}
+
+
 import {
     createStore,
     combineReducers
 } from 'redux'
 //const fetch = require('isomorphic-fetch')
 const PouchDB = require('pouchdb')
-import {
-    map
-} from 'ramda'
+import {map} from 'ramda'
 
 // TODO: PouchDB Inspector -
 // Inspect all the PouchDB databases on your website in Fauxton, inside the developer tools.
@@ -108,10 +113,7 @@ db.changes({
         console.log(err);
     });
 
-
-//ciperilessitheandesseene:347fc61e0e4d46f825fb04000f89e9626915b3ec
-
-const sync = PouchDB.sync('fishing', 'https://ciperilessitheandesseene:347fc61e0e4d46f825fb04000f89e9626915b3ec@tripott.cloudant.com/fishing', {
+const sync = PouchDB.sync('fishing', process.env.REACT_APP_COUCHDB, {
     live: true,
     retry: true
 }).on('change', function(info) {
