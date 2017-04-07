@@ -4,10 +4,6 @@ import {map} from 'ramda'
 import ListItem from './LogEntryListItem'
 
 const List = (props) => {
-
-let statusTextColor = "black-70"
-
-
   return (
     <div className="pa4">
       <h1>Credits</h1>
@@ -19,9 +15,7 @@ let statusTextColor = "black-70"
         <li>sun by Arthur Shlain from the Noun Project</li>
         <li>rain by Arthur Shlain from the Noun Project</li>
         <li>rating stars by Nikita Kozin from the Noun Project</li>
-        <li></li>
       </ul>
-
     </div>
   )
 }
