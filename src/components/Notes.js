@@ -9,7 +9,7 @@ const Notes = (props) => {
       <div className=" f4 f2-ns measure center">
 
         <p className="db lh-copy black-70 serif fw1 mv0 pt0 f4 f3-m f2-l measure baskerville">
-          {notes}
+          "{notes}"
         </p>
       </div>
     </div>

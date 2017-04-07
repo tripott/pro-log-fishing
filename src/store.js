@@ -113,7 +113,7 @@ db.changes({
         console.log(err);
     });
 
-const sync = PouchDB.sync('fishing', process.env.REACT_APP_COUCHDB, {
+PouchDB.sync('fishing', process.env.REACT_APP_COUCHDB, {
     live: true,
     retry: true
 }).on('change', function(info) {

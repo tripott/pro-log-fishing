@@ -1,15 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { find, propEq, propOr } from 'ramda'
+import { find, propEq, propOr, pathOr } from 'ramda'
 import moment from 'moment'
 import MapContainer from './MapContainer'
 import Rating from './Rating'
 import Title from './Title'
 import Notes from './Notes'
+import Tide from './Tide'
 
 //GOOGLE API KEY:  AIzaSyA6PNXwjUhL0VD7WYutPfLVKILzvj74Y-8
 const LogEntryDetail = (props) => {
   const logEntry = find(propEq('_id', props.match.params.id))(props.log)
+
   const name = propOr('', 'name', logEntry)
   const notes = propOr('No notes provided.', 'notes', logEntry)
   const rating = propOr('', 'rating', logEntry)
@@ -19,6 +21,11 @@ const LogEntryDetail = (props) => {
 
   const position = propOr('', 'position', logEntry)
   const centerMap = position === '' ? true : false
+
+  const height = pathOr('', ['tide', 'height'], logEntry)
+  const units = pathOr('', ['tide', 'units'], logEntry)
+  const stage = pathOr('', ['tide', 'stage'], logEntry)
+
 
   if (position === '') {
     return <div>Loading Map...</div>
@@ -90,17 +97,7 @@ const LogEntryDetail = (props) => {
             </main>
           </div>
 
-          <div className="pa3 fl w-50 w-25-ns tc black bg-light-blue">
-            <div className="pa1 fl v-mid w-50 ">
-              <h1 className="f3 fw2 black-90">4.5 <span className="f5 fw1">ft</span></h1>
-            </div>
-            <div className="pa3 fl w-50 ">
-              <i className="fa fa-arrow-circle-o-up fa-4x" aria-hidden="true"></i>
-            </div>
-            <div className="fl w-100 ">
-              <h2 className="f3  fw2 black-50 mt0 lh-copy">rising tide</h2>
-            </div>
-          </div>
+          <Tide height={height} units={units} stage={stage} />
 
           <div className="pa3 fl w-50 w-25-ns tc dark-gray bg-lightest-blue">
             <div className="pa1 fl v-mid w-50 ">

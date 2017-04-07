@@ -5,7 +5,7 @@ const Rating = (props) => {
   const rating = propOr('', 'rating', props)
   const ratingStyle = propOr('pa3 fl w-50 w-50-ns tc bg-white', 'ratingStyle', props)
   let src = "rating-no-stars.svg"
-  console.log(rating)
+  
   switch (rating) {
         case 1:
             src = "rating-1-star.svg"

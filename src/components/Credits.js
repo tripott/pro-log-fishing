@@ -1,9 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {map} from 'ramda'
-import ListItem from './LogEntryListItem'
 
-const List = (props) => {
+const Credits = (props) => {
   return (
     <div className="pa4">
       <h1>Credits</h1>
@@ -20,12 +17,4 @@ const List = (props) => {
   )
 }
 
-const mapStateToProps = function (state) {
-  return {
-    log: state.log,
-    dbStatus: state.dbStatus
-  }
-}
-
-const connector = connect(mapStateToProps)
-export default connector(List);
+export default Credits

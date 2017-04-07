@@ -12,7 +12,7 @@ const MapContainer = React.createClass({
   },
 
   onMapMoved: function(props, map) {
-    const center = map.center;
+    //const center = map.center;
   },
 
   onMarkerClick: function(props, marker, e) {
