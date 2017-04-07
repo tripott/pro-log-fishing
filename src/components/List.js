@@ -5,11 +5,10 @@ import ListItem from './LogEntryListItem'
 
 const List = (props) => {
 
-  const listItems = map(logEntry =>  <ListItem key={logEntry.startDateTime} logEntry={logEntry} {...props} />, props.log)
+const listItems = map(logEntry =>  <ListItem key={logEntry.startDateTime} logEntry={logEntry} {...props} />, props.log)
+const status = props.dbStatus
 
-
-  const status = props.dbStatus
-  let statusTextColor = "black-70"
+let statusTextColor = "black-70"
 
   switch (status) {
         case 'Loading':
