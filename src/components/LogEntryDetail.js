@@ -7,6 +7,7 @@ import Rating from './Rating'
 import Title from './Title'
 import Notes from './Notes'
 import Tide from './Tide'
+import WaterTemp from './WaterTemp'
 
 //GOOGLE API KEY:  AIzaSyA6PNXwjUhL0VD7WYutPfLVKILzvj74Y-8
 const LogEntryDetail = (props) => {
@@ -25,6 +26,11 @@ const LogEntryDetail = (props) => {
   const height = pathOr('', ['tide', 'height'], logEntry)
   const units = pathOr('', ['tide', 'units'], logEntry)
   const stage = pathOr('', ['tide', 'stage'], logEntry)
+
+  const waterTemp = pathOr('', ['waterTemp', 'temp'], logEntry)
+  const waterUnits = pathOr('', ['waterTemp', 'units'], logEntry)
+
+
 
 
   if (position === '') {
@@ -99,17 +105,8 @@ const LogEntryDetail = (props) => {
 
           <Tide height={height} units={units} stage={stage} />
 
-          <div className="pa3 fl w-50 w-25-ns tc dark-gray bg-lightest-blue">
-            <div className="pa1 fl v-mid w-50 ">
-              <h1 className="f3  fw3 black-90">68.8 <span className="f5 fw1">F</span></h1>
-            </div>
-            <div className="pa3 fl w-50 ">
-              <i className="fa fa-thermometer-three-quarters fa-4x" aria-hidden="true"></i>
-            </div>
-            <div className="fl w-100 ">
-              <h2 className="f3  fw2 black-50 mt0 lh-copy">water temp</h2>
-            </div>
-          </div>
+          <WaterTemp temp={waterTemp} units={waterUnits} />
+
 
 
           <div className="pa3 fl w-50 w-25-ns tc bg-dark-blue">
