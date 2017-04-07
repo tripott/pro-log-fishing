@@ -1,6 +1,4 @@
 import React from 'react'
-//import ReactDOM from 'react-dom'
-
 import Map, {GoogleApiWrapper, Marker} from 'google-maps-react'
 
 const MapContainer = React.createClass({

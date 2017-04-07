@@ -1,8 +1,10 @@
 import React from 'react'
-//import 'tachyons/css/tachyons.css'
+import moment from 'moment'
 import { Link } from 'react-router-dom'
 const LogEntryListItem = (props) => {
-  const { _id, name, position, notes, startDateTime } = props.logEntry
+let { _id, name, position, notes, startDateTime } = props.logEntry
+
+startDateTime = moment.utc(startDateTime).format('lll').toString()
 
   // {
   //   _id: 1,
@@ -26,17 +28,12 @@ const LogEntryListItem = (props) => {
 
       <article>
         <Link className="link dt w-100 bb b--black-10 pb2 mt2 dim blue" to={`/log/${_id}`}>
-          <div className="dtc w3">
-            X
+          <div className="dtc pl3">
+            <i className="fa fa-map-pin fa-2x" aria-hidden="true"></i>
           </div>
-          <div className="dtc v-top pl2">
-            <h1 className="f6 f5-ns fw6 lh-title black mv0">{startDateTime} - {name}</h1>
+          <div className="dtc v-top pl3">
+            <h1 className="f6 f3-l fw1-l fw5 lh-title black mv0"><span className="fw6">{name}</span> - {startDateTime}</h1>
             <h2 className="f6 fw4 mt2 mb0 black-60">{notes}</h2>
-            <dl className="mt2 f6">
-              <dt className="clip">Price</dt>
-              <dd className="ml0">{position.lat}</dd>
-              <dd className="ml0">{position.lng}</dd>
-            </dl>
           </div>
         </Link>
       </article>

@@ -37,19 +37,22 @@ let statusTextColor = "black-70"
     }
 
   return (
-    <div className="pa4">
-      <h1>Fishing Log</h1>
-      <main className="mw6">
-        {listItems}
-      </main>
-      <h3>{props.counter}</h3>
-        <footer className="black-70">
-          <div className="db">
-            <p className={`pa2 f7 bg-${statusTextColor} white`}>
-              Sync status: {status}
-            </p>
-          </div>
-        </footer>
+    <div>
+      <div className="w-100 pa4">
+        <h1>Fishing Log</h1>
+        <main className="">
+          {listItems}
+        </main>
+
+
+      </div>
+      <footer className="black-70">
+        <div className="db">
+          <p className={`pa2 f7 bg-${statusTextColor} white`}>
+            Sync status: {status}
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }

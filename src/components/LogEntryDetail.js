@@ -1,23 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { find, propEq, view, propOr } from 'ramda'
+import { find, propEq, propOr } from 'ramda'
 import moment from 'moment'
 import MapContainer from './MapContainer'
 import Rating from './Rating'
+import Title from './Title'
 
 
 //GOOGLE API KEY:  AIzaSyA6PNXwjUhL0VD7WYutPfLVKILzvj74Y-8
 const LogEntryDetail = (props) => {
-
   const logEntry = find(propEq('_id', props.match.params.id))(props.log)
   const name = propOr('', 'name', logEntry)
-//  const startDateTime = moment(propOr('', 'startDateTime', logEntry), 'lll')
   let startDateTime = propOr('', 'startDateTime', logEntry)
   startDateTime = moment.utc(startDateTime).format('lll').toString()
 
   const position = propOr('', 'position', logEntry)
   const centerMap = position === '' ? true : false
-  //{{lat: 37.762391, lng: -122.439192}}
+
   if (position === '') {
     return <div>Loading Map...</div>
   }
@@ -35,17 +34,7 @@ const LogEntryDetail = (props) => {
 
 
       <div className="cf">
-
-        <div className="pa3 fl w-50 w-50-ns tc bg-white">
-          <div className="pa1 fl v-mid w-100 ">
-            <h1 className="f3-m f2-l black-70 fw2 mt3 mb0">{name}</h1>
-          </div>
-
-          <div className="fl w-100 ">
-            <h2 className="f5 fw5 black-40 mt1 mb1 lh-copy">{startDateTime}</h2>
-          </div>
-        </div>
-
+        <Title name={name} startDateTime={startDateTime} />
         <Rating rating={logEntry.rating}/>
 
         <div className="pa2 pb3 fl w-100 tc bg-light-gray">
@@ -60,7 +49,7 @@ const LogEntryDetail = (props) => {
           <main className="mw6 center">
             <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
               <div className="dtc w3 w4-ns v-mid">
-                <img src="/fish-flounder.jpg" className="ba b--black-10 db "/>
+                <img src="/fish-flounder.jpg" className="ba b--black-10 db " alt="flounder" />
               </div>
               <div className="dtc v-mid pl3">
                 <h1 className="f6 f5-ns fw6 lh-title black mv0">Flounder - 12in - 1lb</h1>
@@ -75,7 +64,7 @@ const LogEntryDetail = (props) => {
 
               <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
                 <div className="dtc w3 w4-ns v-mid">
-                  <img src="/fish-sea-trout.jpg" className="ba b--black-10 db "/>
+                  <img src="/fish-sea-trout.jpg" className="ba b--black-10 db " alt="trout" />
                 </div>
                 <div className="dtc v-mid pl3">
                   <h1 className="f6 f5-ns fw6 lh-title black mv0">Trout - 12in - 1lb</h1>
@@ -90,7 +79,7 @@ const LogEntryDetail = (props) => {
 
               <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
                 <div className="dtc w3 w4-ns v-mid">
-                  <img src="/fish-red-fish.jpg" className="ba b--black-10 db"/>
+                  <img src="/fish-red-fish.jpg" className="ba b--black-10 db" alt="flounder" />
                 </div>
                 <div className="dtc v-mid pl3">
                   <h1 className="f6 f5-ns fw6 lh-title black mv0">Redfish - 12in - 1lb</h1>
