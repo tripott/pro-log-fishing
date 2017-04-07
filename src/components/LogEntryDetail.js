@@ -5,12 +5,15 @@ import moment from 'moment'
 import MapContainer from './MapContainer'
 import Rating from './Rating'
 import Title from './Title'
-
+import Notes from './Notes'
 
 //GOOGLE API KEY:  AIzaSyA6PNXwjUhL0VD7WYutPfLVKILzvj74Y-8
 const LogEntryDetail = (props) => {
   const logEntry = find(propEq('_id', props.match.params.id))(props.log)
   const name = propOr('', 'name', logEntry)
+  const notes = propOr('No notes provided.', 'notes', logEntry)
+  const rating = propOr('', 'rating', logEntry)
+
   let startDateTime = propOr('', 'startDateTime', logEntry)
   startDateTime = moment.utc(startDateTime).format('lll').toString()
 
@@ -31,20 +34,11 @@ const LogEntryDetail = (props) => {
           mapStyle={{width: '100%', height: '25%', position: 'relative'}}/>
       </div>
 
-
-
       <div className="cf">
         <Title name={name} startDateTime={startDateTime} />
-        <Rating rating={logEntry.rating}/>
+        <Rating rating={rating}/>
+        <Notes notes={notes} />
 
-        <div className="pa2 pb3 fl w-100 tc bg-light-gray">
-          <div className=" f4 f2-ns measure center">
-
-            <p className="db lh-copy black-70 serif fw1 mv0 pt0 f4 f3-m f2-l measure baskerville">
-              Decent fishing with a few trout in the 12 to 14 inch range.
-            </p>
-          </div>
-        </div>
         <div className="pa2 pb3 fl w-100 tc bg-black-10">
           <main className="mw6 center">
             <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
