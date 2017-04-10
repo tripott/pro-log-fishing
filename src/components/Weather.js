@@ -29,8 +29,8 @@ const Weather = (props) => {
       </div>
       <div className="pa3 fl w-50">
         <img
-        src= {`/${weatherImage}`}
-        alt= {desc}
+        src={`/${weatherImage}`}
+        alt={desc}
         height="60px"
         width="60px" />
       </div>

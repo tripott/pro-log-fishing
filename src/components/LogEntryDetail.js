@@ -43,7 +43,7 @@ const LogEntryDetail = (props) => {
 
   const fishes = pathOr([], ['fishes'], logEntry)
 
-  const fishItems = map(fish => <Fish fishName={fish.species} fishTime={fish.time} fishStats={fish.stats} />, fishes)
+  const fishItems = map(fish => <Fish fishName={fish.species} fishTime={fish.time} fishStats={fish.stats} key={fish.time}/>, fishes)
 
   if (position === '') {
     return <div>Loading Map...</div>

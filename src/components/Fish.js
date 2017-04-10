@@ -10,7 +10,7 @@ const Fish = (props) => {
   return (
     <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
       <div className="dtc v-mid pl3">
-        <h1 className="f4 fw2 lh-title black mv0">{name} <span className="f4 fw2 mt0 mb0 black-60"> (12in - 1lb) </span>  @ {time} </h1>
+        <h1 className="f4 fw2 lh-title black mv0">{name} <span className="f4 fw2 mt0 mb0 black-60"> ({stats}) </span>  @ {time} </h1>
       </div>
       <div className="dtc v-mid">
         <form className="w-100 tr">
