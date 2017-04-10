@@ -8,6 +8,7 @@ import Title from './Title'
 import Notes from './Notes'
 import Tide from './Tide'
 import WaterTemp from './WaterTemp'
+import Wind from './Wind'
 
 //GOOGLE API KEY:  AIzaSyA6PNXwjUhL0VD7WYutPfLVKILzvj74Y-8
 const LogEntryDetail = (props) => {
@@ -30,8 +31,9 @@ const LogEntryDetail = (props) => {
   const waterTemp = pathOr('', ['waterTemp', 'temp'], logEntry)
   const waterUnits = pathOr('', ['waterTemp', 'units'], logEntry)
 
-
-
+  const windSpeed = pathOr('', ['wind', 'speed'], logEntry)
+  const windUnits = pathOr('', ['wind', 'units'], logEntry)
+  const windDirection = pathOr('', ['wind', 'direction'], logEntry)
 
   if (position === '') {
     return <div>Loading Map...</div>
@@ -68,8 +70,7 @@ const LogEntryDetail = (props) => {
                 </form>
               </div>
             </article>
-
-              <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
+            <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
                 <div className="dtc w3 w4-ns v-mid">
                   <img src="/fish-sea-trout.jpg" className="ba b--black-10 db " alt="trout" />
                 </div>
@@ -83,8 +84,7 @@ const LogEntryDetail = (props) => {
                   </form>
                 </div>
               </article>
-
-              <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
+            <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
                 <div className="dtc w3 w4-ns v-mid">
                   <img src="/fish-red-fish.jpg" className="ba b--black-10 db" alt="flounder" />
                 </div>
@@ -98,50 +98,14 @@ const LogEntryDetail = (props) => {
                   </form>
                 </div>
               </article>
-
-
-            </main>
-          </div>
-
+          </main>
+        </div>
+        <div>
           <Tide height={height} units={units} stage={stage} />
-
           <WaterTemp temp={waterTemp} units={waterUnits} />
-
-
-
-          <div className="pa3 fl w-50 w-25-ns tc bg-dark-blue">
-            <div className="pa1 fl v-mid w-50 ">
-              <h1 className="f3 fw2 washed-blue">20 <span className="f5 fw1 washed-blue">mph</span></h1>
-            </div>
-            <div className="pa3 fl w-50">
-              <img
-              src="/wind-turbine.svg"
-              alt="windy"
-              height="60px"
-              width="60px" />
-            </div>
-            <div className="fl w-100 ">
-              <h2 className="f3 fw1 washed-blue mt0 lh-copy">wind (SSW)</h2>
-            </div>
-          </div>
-
-
-          <div className="pa3 fl w-50 w-25-ns tc bg-white">
-            <div className="pa1 fl v-mid w-50 ">
-              <h1 className="f3  fw2 black">75 <span className="f5 fw1">F</span></h1>
-            </div>
-            <div className="pa3 fl w-50">
-              <img
-              src="/sunny.svg"
-              alt="windy"
-              height="60px"
-              width="60px" />
-            </div>
-            <div className="fl w-100 ">
-              <h2 className="f3  fw2 black-50 mt0 lh-copy">sunny</h2>
-            </div>
-          </div>
-
+          <Wind speed={windSpeed} units={windUnits} direction={windDirection}/>
+  
+        </div>
       </div>
 
 
