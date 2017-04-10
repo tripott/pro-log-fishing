@@ -22,16 +22,6 @@ const Wind = (props) => {
     backgroundColor = "light-red"
   }
 
-
-  /*
-  fa-thermometer-empty            // below 32
-  fa-thermometer-quarter          // 32 to 45
-  fa-thermometer-half             // 46 to 70
-  fa-thermometer-three-quarters   // 71 to 85
-  fa-thermometer-full             // above 86
-  */
-
-
   return (
     <div className={`pa3 fl w-50 w-25-ns tc bg-${backgroundColor}`}>
       <div className="pa1 fl v-mid w-50 ">

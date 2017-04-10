@@ -9,6 +9,7 @@ import Notes from './Notes'
 import Tide from './Tide'
 import WaterTemp from './WaterTemp'
 import Wind from './Wind'
+import Weather from './Weather'
 
 //GOOGLE API KEY:  AIzaSyA6PNXwjUhL0VD7WYutPfLVKILzvj74Y-8
 const LogEntryDetail = (props) => {
@@ -34,6 +35,10 @@ const LogEntryDetail = (props) => {
   const windSpeed = pathOr('', ['wind', 'speed'], logEntry)
   const windUnits = pathOr('', ['wind', 'units'], logEntry)
   const windDirection = pathOr('', ['wind', 'direction'], logEntry)
+
+  const weatherTemp = pathOr('', ['weather','temp'], logEntry)
+  const weatherUnits = pathOr('', ['weather','units'], logEntry)
+  const weatherDesc = pathOr('', ['weather','desc'], logEntry)
 
   if (position === '') {
     return <div>Loading Map...</div>
@@ -104,11 +109,9 @@ const LogEntryDetail = (props) => {
           <Tide height={height} units={units} stage={stage} />
           <WaterTemp temp={waterTemp} units={waterUnits} />
           <Wind speed={windSpeed} units={windUnits} direction={windDirection}/>
-  
+          <Weather temp={weatherTemp} units={weatherUnits} desc={weatherDesc}/>
         </div>
       </div>
-
-
     </div>
   )
 }
