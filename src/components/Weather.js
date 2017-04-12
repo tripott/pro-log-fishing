@@ -1,11 +1,11 @@
 import React from 'react'
-import {propOr} from 'ramda'
+import {propOr, toLower} from 'ramda'
 
 const Weather = (props) => {
 
   const temp = propOr('--', 'temp', props)
   const units = propOr('--', 'units', props)
-  const desc = propOr('--', 'desc', props)
+  const desc = toLower(propOr('--', 'desc', props))
 
   let tempColor = "lightest-blue"
 

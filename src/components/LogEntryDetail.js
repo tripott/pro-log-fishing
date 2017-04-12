@@ -88,4 +88,4 @@ const mapStateToProps = function (state) {
 }
 
 const connector = connect(mapStateToProps)
-export default connector(LogEntryDetail);
+export default connector(LogEntryDetail)

@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {map} from 'ramda'
 import ListItem from './LogEntryListItem'
+import { Link } from 'react-router-dom'
 
 const List = (props) => {
 
@@ -45,6 +46,11 @@ let statusTextColor = "black-70"
         </main>
 
 
+      </div>
+      <div>
+        <Link className="link dt w-100 bb b--black-10 pb2 mt2 dim blue" to="/log/new">
+
+        </Link>
       </div>
       <footer className="black-70">
         <div className="db">

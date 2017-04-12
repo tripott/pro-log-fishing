@@ -9,6 +9,7 @@
     "dotenv": "^4.0.0",
     "google-maps-react": "^1.0.19",
     "isomorphic-fetch": "^2.2.1",
+    "jrs-react-components": "^1.2.0",
     "moment": "^2.18.1",
     "pouchdb": "^6.1.2",
     "ramda": "^0.23.0",
