@@ -16,9 +16,9 @@ export const SET_LOG_ENTRY_FOR_EDIT = 'SET_LOG_ENTRY_FOR_EDIT'
 
 // WIZARD ACTIONS
 export const ADD = 'ADD'
-export const PREVIOUS = 'PREVIOUS'
-export const NEXT = 'NEXT'
-export const RESET = 'RESET'
+export const PREVIOUS_NEW_LOG_ENTRY_PANEL = 'PREVIOUS'
+export const NEXT_NEW_LOG_ENTRY_PANEL = 'NEXT'
+export const RESET_NEW_LOG_ENTRY_PANEL = 'RESET'
 
 // POUCH/COUCH SYNC ACTIONS
 export const SYNC_CHANGE = 'SYNC_CHANGE'
@@ -26,3 +26,5 @@ export const SYNC_PAUSED = 'SYNC_PAUSED'
 export const SYNC_ACTIVE = 'SYNC_ACTIVE'
 export const SYNC_DENIED = 'SYNC_DENIED'
 export const SYNC_ERROR = 'SYNC_ERROR'
+
+//const GET_LOCATION = 'GET_LOCATION';

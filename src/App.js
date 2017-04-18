@@ -17,7 +17,6 @@ const App = () => {
               <Route exact path="/log" render={(props) => <List {...props} />} />
               <Route path="/log/:id" render={(props) => <LogEntryDetail {...props} />} />
               <Route path="/credits" render={(props) => <Credits {...props} />} />
-
             </Switch>
           </div>
         </BrowserRouter>

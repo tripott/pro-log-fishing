@@ -1,20 +1,25 @@
 import React from 'react'
-import { Button, TextField, Panel } from 'jrs-react-components'
+import { TextField, Panel } from 'jrs-react-components'
 import { equals, identity } from 'ramda'
 import { connect } from 'react-redux'
 import {
-  ADD,
-  PREVIOUS,
-  NEXT,
-  RESET,
+  //ADD,
+  PREVIOUS_NEW_LOG_ENTRY_PANEL,
+  NEXT_NEW_LOG_ENTRY_PANEL,
+  RESET_NEW_LOG_ENTRY_PANEL,
   SET_LOG_ENTRY_NAME,
   SET_LOG_ENTRY_TIDE,
   RESET_LOG_ENTRY,
   SET_LOG_ENTRY_ID,
   SET_LOG_ENTRY_START_DATE
-} from '../actions'
+  //SET_LOG_ENTRY_POSITION
+
+} from '../actions/actions'
+
+import { getCurrentLocationCoords } from '../actions/actioncreators'
 
 import moment from 'moment'
+// import geolocation from '../geolocation'
 
 const PouchDB = require('pouchdb')
 const db = new PouchDB('fishing')
@@ -65,7 +70,7 @@ const NewLogEntryWizard = props => {
 const mapActionsToProps = dispatch => {
   return {
     reset: () => {
-      dispatch({ type: RESET })
+      dispatch({ type: RESET_NEW_LOG_ENTRY_PANEL })
       dispatch({ type: RESET_LOG_ENTRY })
     },
     setTide: tide => {
@@ -74,13 +79,19 @@ const mapActionsToProps = dispatch => {
     setName: name => {
       const startDate = moment().format()
       const newPKID = `entry_${startDate}_${name}`
-      console.log("newPKID",newPKID )
+
       dispatch({type: SET_LOG_ENTRY_ID, payload: newPKID})
       dispatch({type: SET_LOG_ENTRY_START_DATE, payload: startDate })
       dispatch({ type: SET_LOG_ENTRY_NAME, payload: name })
+
     },
-    previous: panel => dispatch({ type: PREVIOUS, payload: panel }),
-    next: panel => dispatch({ type: NEXT, payload: panel }),
+    previous: panel => dispatch({ type: PREVIOUS_NEW_LOG_ENTRY_PANEL, payload: panel }),
+
+    next: panel => {
+
+      dispatch(getCurrentLocationCoords())
+      dispatch({ type: NEXT_NEW_LOG_ENTRY_PANEL, payload: panel })
+    },
     add: logEntry => {
 
       db.put(logEntry).then(function (response) {
