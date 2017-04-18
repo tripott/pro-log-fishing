@@ -44,14 +44,15 @@ let statusTextColor = "black-70"
         <main className="">
           {listItems}
         </main>
-
-
+        <div class="pa4">
+          <Link className="link dt w-100 bb b--black-10 pb2 mt2 dim blue" to="/log/new">
+            <a href="" className="f5 no-underline black bg-animate hover-bg-black hover-white inline-flex items-center pa3 ba border-box mr4">
+              <span className="pl1">New Log Entry</span>
+            </a>
+          </Link>
+        </div>
       </div>
-      <div>
-        <Link className="link dt w-100 bb b--black-10 pb2 mt2 dim blue" to="/log/new">
-
-        </Link>
-      </div>
+      
       <footer className="black-70">
         <div className="db">
           <p className={`pa2 f7 bg-${statusTextColor} white`}>
