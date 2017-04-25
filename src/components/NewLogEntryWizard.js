@@ -21,6 +21,12 @@ import {
 import moment from 'moment'
 // import geolocation from '../geolocation'
 
+// <Panel
+//   themeStyles={props.themeStyles}
+//   title='New Spot (Step 1 of 2)'
+//   onNext={e => props.next('step2')}
+//   >
+
 const PouchDB = require('pouchdb')
 const db = new PouchDB('fishing')
 

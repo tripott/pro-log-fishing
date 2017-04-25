@@ -10,6 +10,10 @@ import {
 
 import thunk from 'redux-thunk'
 //const fetch = require('isomorphic-fetch')
+
+import { Themes } from 'jrs-react-components'
+import { Dark } from 'jrs-react-components-themes'
+
 const PouchDB = require('pouchdb')
 import {
     map,
@@ -211,6 +215,28 @@ const panel = (state = 'step1', action) => {
     }
 }
 
+Themes.addTheme(Dark)
+
+Themes.replaceThemeStyles('Dark', {
+       panelBorder: 'ba br3 b--purple'
+})
+Themes.setDefaultTheme('Dark')
+const theme = Themes.getDefaultTheme()
+//console.log('pouch-offline theme in redux', theme)
+
+const themeStyles = (state = theme.themeStyles, action) => {
+    switch (action.type) {
+        // case RESET_NEW_LOG_ENTRY_PANEL:
+        //     return 'step1'
+        // case PREVIOUS_NEW_LOG_ENTRY_PANEL:
+        //     return action.payload
+        // case NEXT_NEW_LOG_ENTRY_PANEL:
+        //     return action.payload
+        default:
+            return state
+    }
+}
+
 
 
 // const getLocation = () => {
@@ -239,7 +265,8 @@ const store = createStore(
         log: logReducer,
         dbStatus: dbStatusReducer,
         logEntry: editSingleLogEntryReducer,
-        panel: panel
+        panel: panel,
+        themeStyles: themeStyles
     }),
     applyMiddleware(thunk))
 
