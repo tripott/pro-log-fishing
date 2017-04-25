@@ -40,19 +40,20 @@ let statusTextColor = "black-70"
   return (
     <div>
       <div className="w-100 pa4">
-        <h1>Fishing Log</h1>
+        <h1 className="f2 fw1">Fishing Log</h1>
+          <div >
+            <Link className="link dt w-100 bb b--black-10 pb2 mt2 dim blue" to="/log/new">
+              <a href="" className="f6 no-underline black bg-animate hover-bg-black hover-white inline-flex items-center pa2 ba border-box mr3">
+                <span className="pl1">New Log Entry</span>
+              </a>
+            </Link>
+          </div>
         <main className="">
           {listItems}
         </main>
-        <div class="pa4">
-          <Link className="link dt w-100 bb b--black-10 pb2 mt2 dim blue" to="/log/new">
-            <a href="" className="f5 no-underline black bg-animate hover-bg-black hover-white inline-flex items-center pa3 ba border-box mr4">
-              <span className="pl1">New Log Entry</span>
-            </a>
-          </Link>
-        </div>
+
       </div>
-      
+
       <footer className="black-70">
         <div className="db">
           <p className={`pa2 f7 bg-${statusTextColor} white`}>

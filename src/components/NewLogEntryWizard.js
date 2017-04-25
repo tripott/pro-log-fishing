@@ -1,22 +1,22 @@
 import React from 'react'
 import { TextField, Panel } from 'jrs-react-components'
+//import  Panel  from './Panel'
 import { equals, identity } from 'ramda'
 import { connect } from 'react-redux'
 import {
-  //ADD,
-  PREVIOUS_NEW_LOG_ENTRY_PANEL,
-  NEXT_NEW_LOG_ENTRY_PANEL,
-  RESET_NEW_LOG_ENTRY_PANEL,
   SET_LOG_ENTRY_NAME,
   SET_LOG_ENTRY_TIDE,
   RESET_LOG_ENTRY,
   SET_LOG_ENTRY_ID,
   SET_LOG_ENTRY_START_DATE
-  //SET_LOG_ENTRY_POSITION
-
 } from '../actions/actions'
 
-import { getCurrentLocationCoords } from '../actions/actioncreators'
+import {
+  getCurrentLocationCoords,
+  newLogEntryWizardPanelResetting,
+  newLogEntryWizardPanelNexting,
+  newLogEntryWizardPanelPreviousing
+} from '../actions/actioncreators'
 
 import moment from 'moment'
 // import geolocation from '../geolocation'
@@ -30,8 +30,11 @@ const NewLogEntryWizard = props => {
 
         {equals(props.panel, 'step1') && (
 
-          <Panel title='Create Fishing Spot (1 of 2)' onNext={e => props.next('step2')} >
-            <h2>Enter Fishing Spot Name (Step 1 of 2)</h2>
+          <Panel
+            themeStyles={props.themeStyles}
+            title='New Spot (Step 1 of 2)'
+            onNext={e => props.next('step2')}
+            >
               <TextField
                 label='Name'
                 value={props.logEntry.name}
@@ -42,14 +45,14 @@ const NewLogEntryWizard = props => {
 
           {equals(props.panel, 'step2') && (
           <Panel
-            title='Create Fishing Spot (2 of 2)'
+            themeStyles={props.themeStyles}
+            title='New Spot (Step 2 of 2)'
             onPrevious={e => props.previous('step1')}
             onFinish={e => {
               props.add(props.logEntry)
               props.reset()
               props.history.push('/')
             }}>
-            <h2>Enter Tide (Step 2 of 2)</h2>
             <TextField
               label='Tide Height' width='10'
               value={props.logEntry.tide.height}
@@ -70,7 +73,7 @@ const NewLogEntryWizard = props => {
 const mapActionsToProps = dispatch => {
   return {
     reset: () => {
-      dispatch({ type: RESET_NEW_LOG_ENTRY_PANEL })
+      dispatch(newLogEntryWizardPanelResetting)
       dispatch({ type: RESET_LOG_ENTRY })
     },
     setTide: tide => {
@@ -85,12 +88,12 @@ const mapActionsToProps = dispatch => {
       dispatch({ type: SET_LOG_ENTRY_NAME, payload: name })
 
     },
-    previous: panel => dispatch({ type: PREVIOUS_NEW_LOG_ENTRY_PANEL, payload: panel }),
+    previous: panel => dispatch(newLogEntryWizardPanelPreviousing(panel)),
 
     next: panel => {
 
       dispatch(getCurrentLocationCoords())
-      dispatch({ type: NEXT_NEW_LOG_ENTRY_PANEL, payload: panel })
+      dispatch(newLogEntryWizardPanelNexting(panel))
     },
     add: logEntry => {
 

@@ -26,5 +26,6 @@ export const SYNC_PAUSED = 'SYNC_PAUSED'
 export const SYNC_ACTIVE = 'SYNC_ACTIVE'
 export const SYNC_DENIED = 'SYNC_DENIED'
 export const SYNC_ERROR = 'SYNC_ERROR'
+export const LOADING_DATA = 'LOADING_DATA'
 
 //const GET_LOCATION = 'GET_LOCATION';
