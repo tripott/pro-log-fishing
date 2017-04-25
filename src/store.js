@@ -226,12 +226,6 @@ const theme = Themes.getDefaultTheme()
 
 const themeStyles = (state = theme.themeStyles, action) => {
     switch (action.type) {
-        // case RESET_NEW_LOG_ENTRY_PANEL:
-        //     return 'step1'
-        // case PREVIOUS_NEW_LOG_ENTRY_PANEL:
-        //     return action.payload
-        // case NEXT_NEW_LOG_ENTRY_PANEL:
-        //     return action.payload
         default:
             return state
     }
