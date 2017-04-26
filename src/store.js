@@ -12,7 +12,7 @@ import thunk from 'redux-thunk'
 //const fetch = require('isomorphic-fetch')
 
 import { Themes } from 'jrs-react-components'
-import { Dark } from 'jrs-react-components-themes'
+import { dark, light } from 'jrs-react-components-themes'
 
 const PouchDB = require('pouchdb')
 import {
@@ -215,14 +215,14 @@ const panel = (state = 'step1', action) => {
     }
 }
 
-Themes.addTheme(Dark)
+Themes.addTheme(light)
 
-Themes.replaceThemeStyles('Dark', {
-       panelBorder: 'ba br3 b--purple'
-})
-Themes.setDefaultTheme('Dark')
+// Themes.replaceThemeStyles('Dark', {
+//        panelBorder: 'ba br3 b--purple'
+// })
+Themes.setDefaultTheme('light')
 const theme = Themes.getDefaultTheme()
-//console.log('pouch-offline theme in redux', theme)
+console.log('pouch-offline theme in redux', theme)
 
 const themeStyles = (state = theme.themeStyles, action) => {
     switch (action.type) {

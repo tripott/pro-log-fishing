@@ -36,7 +36,7 @@ export function getCurrentLocationCoords() {
       .then((position) => {
         dispatch(setLogEntryPosition(position))
       })
-      .catch((err) => console.log("getCurrentLocationCoords error", err))
+      .catch((err) => console.log("Problem getting geolocation ", err))
   }
 }
 

@@ -48,7 +48,7 @@ let statusTextColor = "black-70"
               </a>
             </Link>
           </div>
-        <main className="">
+        <main>
           {listItems}
         </main>
 
