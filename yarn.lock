@@ -2148,7 +2148,7 @@ fb-watchman@^1.8.0, fb-watchman@^1.9.0:
   dependencies:
     bser "1.0.2"
 
-fbjs@^0.8.1, fbjs@^0.8.4:
+fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.12"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
   dependencies:
@@ -3210,9 +3210,16 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-jrs-react-components@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/jrs-react-components/-/jrs-react-components-1.2.0.tgz#4dae6b417b1cb8c1aef7433d35eb29894b6b240f"
+jrs-react-components-themes@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/jrs-react-components-themes/-/jrs-react-components-themes-1.1.4.tgz#67c7688abc3a2e8ea3beea5fb5ede8b25906599e"
+
+jrs-react-components@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/jrs-react-components/-/jrs-react-components-2.0.4.tgz#2962c0a9e65ca0ad280f09c3f5f1753b42334c92"
+  dependencies:
+    ramda "^0.23.0"
+    react "^15.5.4"
 
 js-base64@^2.1.9:
   version "2.1.9"
@@ -4501,6 +4508,12 @@ promise@7.1.1, promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+prop-types@^15.5.7:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  dependencies:
+    fbjs "^0.8.9"
+
 proxy-addr@~1.1.3:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-1.1.4.tgz#27e545f6960a44a627d9b44467e35c1b6b4ce2f3"
@@ -4692,6 +4705,15 @@ react@^15.4.2:
     fbjs "^0.8.4"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
+
+react@^15.5.4:
+  version "15.5.4"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.5.4.tgz#fa83eb01506ab237cdc1c8c3b1cea8de012bf047"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
+    prop-types "^15.5.7"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
