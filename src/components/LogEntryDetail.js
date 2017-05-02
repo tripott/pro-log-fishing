@@ -74,6 +74,7 @@ const LogEntryDetail = (props) => {
           <WaterTemp temp={waterTemp} units={waterUnits} />
           <Wind speed={windSpeed} units={windUnits} direction={windDirection}/>
           <Weather temp={weatherTemp} units={weatherUnits} desc={weatherDesc}/>
+
         </div>
       </div>
     </div>
