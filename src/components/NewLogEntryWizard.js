@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import {
 	SET_LOG_ENTRY_NAME,
 	SET_LOG_ENTRY_TIDE,
+	SET_LOG_ENTRY_WATER_TEMP,
 	RESET_LOG_ENTRY,
 	SET_LOG_ENTRY_ID,
 	SET_LOG_ENTRY_START_DATE
@@ -37,7 +38,7 @@ const NewLogEntryWizard = props => {
 			{equals(props.panel, 'step1') &&
 				<Panel
 					themeStyles={props.themeStyles}
-					title="New Spot (Step 1 of 2)"
+					title="New Spot (Step 1 of 3)"
 					onNext={e => props.next('step2')}
 				>
 					<TextField
@@ -50,13 +51,9 @@ const NewLogEntryWizard = props => {
 			{equals(props.panel, 'step2') &&
 				<Panel
 					themeStyles={props.themeStyles}
-					title="New Spot (Step 2 of 2)"
+					title="New Spot (Step 2 of 3)"
 					onPrevious={e => props.previous('step1')}
-					onFinish={e => {
-						props.add(props.logEntry)
-						props.reset()
-						props.history.push('/')
-					}}
+					onNext={e => props.next('step3')}
 				>
 					<TextField
 						label="Tide Height"
@@ -94,6 +91,27 @@ const NewLogEntryWizard = props => {
 							Falling
 						</div>
 					</div>
+				</Panel>} {equals(props.panel, 'step3') &&
+				<Panel
+					themeStyles={props.themeStyles}
+					title="Water Temp (Step 3 of 3)"
+					onPrevious={e => props.previous('step2')}
+					onFinish={e => {
+						props.add(props.logEntry)
+						props.reset()
+						props.history.push('/')
+					}}
+				>
+					<TextField
+						label="Water Temp (F)"
+						width="12"
+						value={props.logEntry.waterTemp.temp}
+						onChange={e =>
+							props.setWaterTemp({
+								temp: e.target.value,
+								units: 'F'
+							})}
+					/>
 				</Panel>}
 		</div>
 	)
@@ -108,6 +126,9 @@ const mapActionsToProps = dispatch => {
 		setTide: tide => {
 			dispatch({ type: SET_LOG_ENTRY_TIDE, payload: tide })
 		},
+		setWaterTemp: temp => {
+			dispatch({ type: SET_LOG_ENTRY_WATER_TEMP, payload: temp })
+		},
 		setName: name => {
 			const startDate = moment().format()
 			const newPKID = `entry_${startDate}_${name}`
@@ -121,6 +142,7 @@ const mapActionsToProps = dispatch => {
 		next: panel => {
 			if (panel === 'step2') {
 				dispatch(getCurrentLocationCoords())
+
 			}
 
 			dispatch(newLogEntryWizardPanelNexting(panel))

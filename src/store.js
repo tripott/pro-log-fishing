@@ -206,11 +206,6 @@ const panel = (state = 'step1', action) => {
 }
 
 ThemeManager.addTheme(light)
-
-// Themes.replaceThemeStyles('Dark', {
-//        panelBorder: 'ba br3 b--purple'
-// })
-ThemeManager.setDefaultTheme('light')
 const theme = ThemeManager.getDefaultTheme()
 console.log('pouch-offline theme in redux', theme)
 

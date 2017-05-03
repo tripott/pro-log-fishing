@@ -6,7 +6,7 @@ const Weather = props => {
 	const temp = propOr('--', 'temp', props)
 	const units = propOr('--', 'units', props)
 	const desc = toLower(propOr('--', 'desc', props))
-
+	const url = propOr('/sunny.svg', 'url', props)
 	let tempColor = 'lightest-blue'
 
 	if (temp < 33) tempColor = 'blue'
@@ -15,12 +15,6 @@ const Weather = props => {
 	if (temp > 60 && temp < 76) tempColor = 'light-red'
 	if (temp > 75) tempColor = 'dark-red'
 
-	let weatherImage = 'sunny.svg'
-
-	if (desc === 'partly cloudy') weatherImage = 'partly-cloudy.svg'
-	if (desc === 'rain') weatherImage = 'rain.svg'
-	if (desc === 'sunny') weatherImage = 'sunny.svg'
-
 	return (
 		<Tile
 			backgroundColor={`bg-${tempColor}`}
@@ -28,7 +22,7 @@ const Weather = props => {
 			h1SecondaryText={units}
 			h2Text={desc}
 		>
-			<img src={`/${weatherImage}`} alt={desc} height="60px" width="60px" />
+			<img src={url} alt={desc} height="60px" width="60px" />
 		</Tile>
 	)
 }
