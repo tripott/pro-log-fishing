@@ -10,10 +10,14 @@ const Weather = props => {
 	let tempColor = 'lightest-blue'
 
 	if (temp < 33) tempColor = 'blue'
-	if (temp > 32 && temp < 46) tempColor = 'lightest-blue'
-	if (temp > 45 && temp < 61) tempColor = 'light-yellow'
-	if (temp > 60 && temp < 76) tempColor = 'light-red'
-	if (temp > 75) tempColor = 'dark-red'
+	if (temp > 32 && temp < 41) tempColor = 'light-blue'
+	if (temp > 40 && temp < 51) tempColor = 'gray'
+	if (temp > 50 && temp < 61) tempColor = 'light-yellow'
+	if (temp > 60 && temp < 71) tempColor = 'light-orange'
+	if (temp > 70 && temp < 81) tempColor = 'orange'
+	if (temp > 80 && temp < 91) tempColor = 'light-red'
+	if (temp > 90 && temp < 101) tempColor = 'dark-red'
+	if (temp > 100 && temp < 101) tempColor = 'pink'
 
 	return (
 		<Tile
