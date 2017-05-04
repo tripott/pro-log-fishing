@@ -8,8 +8,10 @@ import {
 	SET_LOG_ENTRY_TIDE,
 	SET_LOG_ENTRY_WATER_TEMP,
 	RESET_LOG_ENTRY,
+	RESET_NEW_LOG_ENTRY_PANEL,
 	SET_LOG_ENTRY_ID,
-	SET_LOG_ENTRY_START_DATE
+	SET_LOG_ENTRY_START_DATE,
+	SET_LOG_ENTRY_NOTES
 } from '../actions/actions'
 
 import {
@@ -32,13 +34,14 @@ const PouchDB = require('pouchdb')
 const db = new PouchDB('fishing')
 
 const NewLogEntryWizard = props => {
+	console.log('props.panel', props.panel)
 	return (
 		<div className="pa4">
 
 			{equals(props.panel, 'step1') &&
 				<Panel
 					themeStyles={props.themeStyles}
-					title="New Spot (Step 1 of 3)"
+					title="New Spot (Step 1 of 4)"
 					onNext={e => props.next('step2')}
 				>
 					<TextField
@@ -51,7 +54,7 @@ const NewLogEntryWizard = props => {
 			{equals(props.panel, 'step2') &&
 				<Panel
 					themeStyles={props.themeStyles}
-					title="New Spot (Step 2 of 3)"
+					title="New Spot (Step 2 of 4)"
 					onPrevious={e => props.previous('step1')}
 					onNext={e => props.next('step3')}
 				>
@@ -70,23 +73,27 @@ const NewLogEntryWizard = props => {
 					<div className="cf">
 						<div
 							className={`fl pa2 ba tc br1 pointer ${equals(props.logEntry.tide.stage, 'Rising') && 'bg-black white b--black'}`}
-							onClick={e =>
+							onClick={e => {
 								props.setTide({
 									height: props.logEntry.tide.height,
 									units: 'ft',
 									stage: 'Rising'
-								})}
+								})
+								props.next('step3')
+							}}
 						>
 							Rising
 						</div>
 						<div
 							className={`fl mh1 pa2 ba tc br1 pointer ${equals(props.logEntry.tide.stage, 'Falling') && 'bg-black white b--black'}`}
-							onClick={e =>
+							onClick={e => {
 								props.setTide({
 									height: props.logEntry.tide.height,
 									units: 'ft',
 									stage: 'Falling'
-								})}
+								})
+								props.next('step3')
+							}}
 						>
 							Falling
 						</div>
@@ -94,13 +101,9 @@ const NewLogEntryWizard = props => {
 				</Panel>} {equals(props.panel, 'step3') &&
 				<Panel
 					themeStyles={props.themeStyles}
-					title="Water Temp (Step 3 of 3)"
+					title="Water Temp (Step 3 of 4)"
 					onPrevious={e => props.previous('step2')}
-					onFinish={e => {
-						props.add(props.logEntry)
-						props.reset()
-						props.history.push('/')
-					}}
+					onNext={e => props.next('step4')}
 				>
 					<TextField
 						label="Water Temp (F)"
@@ -112,6 +115,23 @@ const NewLogEntryWizard = props => {
 								units: 'F'
 							})}
 					/>
+				</Panel>} {equals(props.panel, 'step4') &&
+				<Panel
+					themeStyles={props.themeStyles}
+					title="Add a note (Step 4 of 4)"
+					onPrevious={e => props.previous('step3')}
+					onFinish={e => {
+						props.add(props.logEntry)
+						props.reset()
+						props.history.push('/')
+					}}
+				>
+					<TextField
+						label="Notes"
+						width="100"
+						value={props.logEntry.notes}
+						onChange={e => props.setNotes(e.target.value)}
+					/>
 				</Panel>}
 		</div>
 	)
@@ -120,7 +140,10 @@ const NewLogEntryWizard = props => {
 const mapActionsToProps = dispatch => {
 	return {
 		reset: () => {
-			dispatch(newLogEntryWizardPanelResetting)
+			console.log(
+				'reset was called. dispatch and call action creator newLogEntryWizardPanelResetting'
+			)
+			dispatch({ type: RESET_NEW_LOG_ENTRY_PANEL })
 			dispatch({ type: RESET_LOG_ENTRY })
 		},
 		setTide: tide => {
@@ -128,6 +151,9 @@ const mapActionsToProps = dispatch => {
 		},
 		setWaterTemp: temp => {
 			dispatch({ type: SET_LOG_ENTRY_WATER_TEMP, payload: temp })
+		},
+		setNotes: notes => {
+			dispatch({ type: SET_LOG_ENTRY_NOTES, payload: notes })
 		},
 		setName: name => {
 			const startDate = moment().format()
@@ -142,7 +168,6 @@ const mapActionsToProps = dispatch => {
 		next: panel => {
 			if (panel === 'step2') {
 				dispatch(getCurrentLocationCoords())
-
 			}
 
 			dispatch(newLogEntryWizardPanelNexting(panel))

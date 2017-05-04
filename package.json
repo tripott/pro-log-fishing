@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "dotenv": "^4.0.0",
+    "font-awesome": "^4.7.0",
     "google-maps-react": "^1.0.19",
     "isomorphic-fetch": "^2.2.1",
     "jrs-react-components": "^2.0.4",
@@ -19,7 +20,8 @@
     "react-redux": "^5.0.3",
     "react-router-dom": "^4.0.0",
     "redux": "^3.6.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "tachyons": "^4.7.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -3,7 +3,6 @@ import {
 	SET_LOG_ENTRY_POSITION,
 	NEXT_NEW_LOG_ENTRY_PANEL,
 	PREVIOUS_NEW_LOG_ENTRY_PANEL,
-	RESET_NEW_LOG_ENTRY_PANEL,
 	SET_LOG,
 	SYNC_COMPLETE,
 	SYNC_CHANGE,
@@ -118,7 +117,7 @@ function reverseGeoCodePosition(position) {
 	const latlng = `${position.coords.latitude},${position.coords.longitude}`
 
 	return fetch(
-		`http://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&sensor=true`,
+		`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&sensor=true`,
 		{
 			method: 'get'
 		}
@@ -130,7 +129,7 @@ function getWeatherConditions(location) {
 	// "/SC/Mt_Pleasant.json"
 
 	return fetch(
-		`http://api.wunderground.com/api/c88ea0ce3f39121f/conditions/q${location}`,
+		`https://api.wunderground.com/api/c88ea0ce3f39121f/conditions/q${location}`,
 		{
 			method: 'get'
 		}
@@ -261,9 +260,10 @@ export function syncDenied() {
 	}
 }
 
-export function newLogEntryWizardPanelResetting() {
-	return { type: RESET_NEW_LOG_ENTRY_PANEL }
-}
+// export function newLogEntryWizardPanelResetting() {
+// 	console.log('newLogEntryWizardPanelResetting')
+// 	return { type: RESET_NEW_LOG_ENTRY_PANEL }
+// }
 
 export function newLogEntryWizardPanelNexting(panel) {
 	return { type: NEXT_NEW_LOG_ENTRY_PANEL, payload: panel }

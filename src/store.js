@@ -193,8 +193,10 @@ const editSingleLogEntryReducer = (state = newLogEntry, action) => {
 }
 
 const panel = (state = 'step1', action) => {
+	console.log('store panel state action', action)
 	switch (action.type) {
 		case RESET_NEW_LOG_ENTRY_PANEL:
+			console.log('RESET_NEW_LOG_ENTRY_PANEL to step 1')
 			return 'step1'
 		case PREVIOUS_NEW_LOG_ENTRY_PANEL:
 			return action.payload

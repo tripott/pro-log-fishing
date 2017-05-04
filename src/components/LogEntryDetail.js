@@ -20,6 +20,8 @@ const LogEntryDetail = props => {
 		? path(['match', 'params', 'id'])(props)
 		: compose(last, split('/'), path(['location', 'pathname']))(props)
 
+	console.log('LogEntryDetail resolved pathID ', pathID)
+
 	const logEntry = find(propEq('_id', pathID))(props.log)
 	//const logEntry = find(propEq('_id', props.match.params.id))(props.log)
 
