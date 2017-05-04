@@ -16,7 +16,6 @@ import {
 
 import {
 	getCurrentLocationCoords,
-	newLogEntryWizardPanelResetting,
 	newLogEntryWizardPanelNexting,
 	newLogEntryWizardPanelPreviousing
 } from '../actions/actioncreators'
@@ -140,9 +139,6 @@ const NewLogEntryWizard = props => {
 const mapActionsToProps = dispatch => {
 	return {
 		reset: () => {
-			console.log(
-				'reset was called. dispatch and call action creator newLogEntryWizardPanelResetting'
-			)
 			dispatch({ type: RESET_NEW_LOG_ENTRY_PANEL })
 			dispatch({ type: RESET_LOG_ENTRY })
 		},

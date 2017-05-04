@@ -193,10 +193,10 @@ const editSingleLogEntryReducer = (state = newLogEntry, action) => {
 }
 
 const panel = (state = 'step1', action) => {
-	console.log('store panel state action', action)
+	//console.log('store panel state action', action)
 	switch (action.type) {
 		case RESET_NEW_LOG_ENTRY_PANEL:
-			console.log('RESET_NEW_LOG_ENTRY_PANEL to step 1')
+			//console.log('RESET_NEW_LOG_ENTRY_PANEL to step 1')
 			return 'step1'
 		case PREVIOUS_NEW_LOG_ENTRY_PANEL:
 			return action.payload
@@ -209,7 +209,7 @@ const panel = (state = 'step1', action) => {
 
 ThemeManager.addTheme(light)
 const theme = ThemeManager.getDefaultTheme()
-console.log('pouch-offline theme in redux', theme)
+//console.log('pouch-offline theme in redux', theme)
 
 const themeStyles = (state = theme.themeStyles, action) => {
 	switch (action.type) {

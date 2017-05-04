@@ -14,13 +14,12 @@ import Fish from './Fish'
 
 import { prop, path, split, compose, last } from 'ramda'
 
-//GOOGLE API KEY:  AIzaSyA6PNXwjUhL0VD7WYutPfLVKILzvj74Y-8
 const LogEntryDetail = props => {
 	const pathID = prop('match')(props)
 		? path(['match', 'params', 'id'])(props)
 		: compose(last, split('/'), path(['location', 'pathname']))(props)
 
-	console.log('LogEntryDetail resolved pathID ', pathID)
+	//console.log('LogEntryDetail resolved pathID ', pathID)
 
 	const logEntry = find(propEq('_id', pathID))(props.log)
 	//const logEntry = find(propEq('_id', props.match.params.id))(props.log)
