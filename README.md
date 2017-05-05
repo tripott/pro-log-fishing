@@ -13,6 +13,15 @@
   $ yarn (or npm install)
   ```
 
+### Obtaining a Weather Underground API key
+
+When adding a new fishing log entry, a call is made to the [Weather Underground API](https://www.wunderground.com/weather/api/) to obtain weather and wind data.  
+
+- Sign up for an account
+- Create an API key under the **Anvil** plan.  
+
+> IMPORTANT:  Please make a note of the api key and keep it a secret.
+
 ### Setting up CouchDB on Cloudant
 
 **pro-log-fishing** synchronizes an in-browser PouchDB database with a hosted CouchDB in Cloudant, a fully-managed NoSQL database-as-a-service (DBaaS).
@@ -29,7 +38,35 @@
 
 ### Environment variables - development
 
-You will need an  environment variable named `REACT_APP_COUCHDB` which is used within the project's redux **store.js** to establish synchronization between a local PouchDB database and CouchDB database in Cloudant.
+#### Create an **.env** file
+
+For local development, copy the **.env-sample** file as **.env**.  
+
+> The **.env** file will _not_ be deployed to production or synced with github. See **.gitingore**.  **IMPORTANT**  Make a note of the password and keep it safe. For security reasons, do not deploy the password to npm or github, etc.
+
+#### Weather Underground
+
+You will need an environment variable named `REACT_APP_WU` which is used within the project's **actioncreators.js** file to obtain weather data for the user's current location.  
+
+  ```
+  function getWeatherConditions(location) {
+  	// location parameter example:
+  	// "/SC/Mt_Pleasant.json"
+
+  	return fetch(
+  		`https://api.wunderground.com/api/${process.env.REACT_APP_WU}/conditions/q${location}`,
+  		{
+  			method: 'get'
+  		}
+  	)
+  }
+  ```
+
+- Within the **.env** file, replace the   `{weather-underground-api-key}` placeholder with your Weather Underground API key.
+
+#### Cloudant / CouchDB
+
+You will need an environment variable named `REACT_APP_COUCHDB` which is used within the project's redux **store.js** to establish synchronization between a local PouchDB database and CouchDB database in Cloudant.
 
   ```
   ...
@@ -40,11 +77,7 @@ You will need an  environment variable named `REACT_APP_COUCHDB` which is used w
   ...
   ```
 
-- For local development, copy the **.env-sample** file as **.env**.  
-
-> The **.env** file will _not_ be deployed to production or synced with github. See **.gitingore**.  **IMPORTANT**  Make a note of the password and keep it safe. For security reasons, do not deploy the password to npm or github, etc.
-
-- Within the **.env** file, replace the following placeholders with your Cloudant information:
+- Within the **.env** file, replace the following `REACT_APP_COUCHDB` placeholders with your Cloudant information:
   - `cloudant-api-key`
   - `cloudant-password`
   - `your-cloudant-user-name`
@@ -52,11 +85,12 @@ You will need an  environment variable named `REACT_APP_COUCHDB` which is used w
 
 ### Environment variables - production - Storing a secret with Now.
 
- Use the `now` cli to store a secret named `couchdb` into now.  See [Environment Variables and Secrets](https://zeit.co/blog/environment-variables-secrets).  The value for the `couchdb` secret should be the same value as your `REACT_APP_COUCHDB` environment value within the **.env** file.  
+ Use the `now` cli to store two secrets named `couchdb` and `wu` into now.  See [Environment Variables and Secrets](https://zeit.co/blog/environment-variables-secrets).  The value for the `couchdb` secret should be the same value as your `REACT_APP_COUCHDB` environment value within the **.env** file.  
 
   Example:
 ```
 $ now secrets add couchdb "https://{cloudant-api-key}:{cloudant-password}@{your-cloudant-user-name}.cloudant.com/fishing"
+$ now secrets add wu "{weather-underground-api-key}"
 ```
 
 ### Starting the application
@@ -97,10 +131,10 @@ $ now secrets add couchdb "https://{cloudant-api-key}:{cloudant-password}@{your-
 
 ## Deploying to production using [Now](https://zeit.co/)
 
-- From the **build** folder, deploy.  Populate the `process.env.REACT_APP_COUCHDB` production environment variable with our secret using the `-e` option:
+- From the **build** folder, deploy.  Populate the `REACT_APP_COUCHDB` and `REACT_APP_WU` production environment variables with our secrets using the `-e` option.:
 
   ```
-  $ now -e REACT_APP_COUCHDB=@couchdb
+  $ now -e REACT_APP_COUCHDB=@couchdb -e REACT_APP_WU=@wu
   ```
   See [Environment Variables and Secrets](https://zeit.co/blog/environment-variables-secrets).
 
