@@ -13,6 +13,7 @@
     "jrs-react-components": "^2.0.4",
     "jrs-react-components-themes": "^1.1.4",
     "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
     "pouchdb": "^6.1.2",
     "ramda": "^0.23.0",
     "react": "^15.4.2",

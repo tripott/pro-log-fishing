@@ -177,7 +177,6 @@ const mapActionsToProps = dispatch => {
 				.catch(function(err) {
 					console.log(err)
 				})
-			//dispatch({ type: ADD, payload: logEntry })
 		}
 	}
 }

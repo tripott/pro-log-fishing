@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config()
+}
+
 import {
 	LOADING_DATA,
 	SET_LOG_ENTRY_POSITION,
@@ -129,7 +133,7 @@ function getWeatherConditions(location) {
 	// "/SC/Mt_Pleasant.json"
 
 	return fetch(
-		`https://api.wunderground.com/api/c88ea0ce3f39121f/conditions/q${location}`,
+		`https://api.wunderground.com/api/${process.env.REACT_APP_WU}/conditions/q${location}`,
 		{
 			method: 'get'
 		}
@@ -212,6 +216,7 @@ export function dataIsLoading() {
 }
 
 export function setLog(logDocs) {
+	//console.log('docs', JSON.stringify(logDocs, null, 2))
 	return {
 		type: SET_LOG,
 		payload: logDocs
