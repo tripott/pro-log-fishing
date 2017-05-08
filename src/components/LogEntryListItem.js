@@ -15,7 +15,7 @@ const LogEntryListItem = props => {
 	return (
 		<article>
 			<Link className="link dt w-100 dim blue" to={`/log/${_id}`}>
-				<Tile
+				<Tile themeStyles={props.themeStyles}
 					backgroundColor={props.backgroundColor}
 					width={props.width}
 					h1MainText={name}

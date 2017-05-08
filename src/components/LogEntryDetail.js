@@ -11,19 +11,20 @@ import WaterTemp from './WaterTemp'
 import Wind from './Wind'
 import Weather from './Weather'
 import Fish from './Fish'
+import { FloatingButton, IconButton } from 'react-buttons'
+import { Link } from 'react-router-dom'
 
 import { prop, path, split, compose, last } from 'ramda'
+
+const PouchDB = require('pouchdb')
+const db = new PouchDB('fishing')
 
 const LogEntryDetail = props => {
 	const pathID = prop('match')(props)
 		? path(['match', 'params', 'id'])(props)
 		: compose(last, split('/'), path(['location', 'pathname']))(props)
 
-	//console.log('LogEntryDetail resolved pathID ', pathID)
-
 	const logEntry = find(propEq('_id', pathID))(props.log)
-	//const logEntry = find(propEq('_id', props.match.params.id))(props.log)
-
 	const name = propOr('', 'name', logEntry)
 	const notes = propOr('No notes provided.', 'notes', logEntry)
 	const rating = propOr('', 'rating', logEntry)
@@ -102,8 +103,47 @@ const LogEntryDetail = props => {
 
 				</div>
 			</div>
+			<div>
+				<Link className="dim blue" to="/log">
+					<FloatingButton
+						color="primary"
+						helpPosition="top"
+						faIcon="home"
+						label="back to fishing spots"
+						onClick={e => e}
+					/>
+				</Link>
+
+				<IconButton
+					color="error"
+					helpPosition="right"
+					faIcon="trash"
+					label="delete this spot"
+					onClick={e => {
+						props.delete(logEntry)
+
+						props.history.push('/log')
+					}}
+				/>
+
+			</div>
 		</div>
 	)
+}
+
+const mapActionsToProps = dispatch => {
+	return {
+		delete: logEntry => {
+			db
+				.remove(logEntry)
+				.then(function(response) {
+					// handle response
+				})
+				.catch(function(err) {
+					console.log(err)
+				})
+		}
+	}
 }
 
 const mapStateToProps = function(state) {
@@ -113,5 +153,5 @@ const mapStateToProps = function(state) {
 	}
 }
 
-const connector = connect(mapStateToProps)
+const connector = connect(mapStateToProps, mapActionsToProps)
 export default connector(LogEntryDetail)

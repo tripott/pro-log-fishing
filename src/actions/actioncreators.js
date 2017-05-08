@@ -16,7 +16,6 @@ import {
 	SYNC_ERROR,
 	SET_LOG_ENTRY_WIND,
 	SET_LOG_ENTRY_WEATHER
-	//  RESET_LOG_ENTRY_TIDE_LOG_ENTRY
 } from './actions'
 import fetch from 'isomorphic-fetch'
 import {

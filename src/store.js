@@ -3,18 +3,13 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 import { createStore, combineReducers, applyMiddleware } from 'redux'
-
 import thunk from 'redux-thunk'
-//const fetch = require('isomorphic-fetch')
-
 import { ThemeManager } from 'jrs-react-components'
 import { light } from 'jrs-react-components-themes'
-
-const PouchDB = require('pouchdb')
 import { map, merge } from 'ramda'
+const PouchDB = require('pouchdb')
 
 import {
-	//ADD,
 	PREVIOUS_NEW_LOG_ENTRY_PANEL,
 	NEXT_NEW_LOG_ENTRY_PANEL,
 	RESET_NEW_LOG_ENTRY_PANEL,
@@ -39,7 +34,6 @@ import {
 	SYNC_ACTIVE,
 	SYNC_DENIED,
 	SYNC_ERROR
-	//    GET_LOCATION
 } from './actions/actions'
 
 import {
@@ -193,10 +187,8 @@ const editSingleLogEntryReducer = (state = newLogEntry, action) => {
 }
 
 const panel = (state = 'step1', action) => {
-	//console.log('store panel state action', action)
 	switch (action.type) {
 		case RESET_NEW_LOG_ENTRY_PANEL:
-			//console.log('RESET_NEW_LOG_ENTRY_PANEL to step 1')
 			return 'step1'
 		case PREVIOUS_NEW_LOG_ENTRY_PANEL:
 			return action.payload
@@ -208,6 +200,11 @@ const panel = (state = 'step1', action) => {
 }
 
 ThemeManager.addTheme(light)
+
+// ThemeManager.replaceThemeStyles('light', {
+//   button: ''
+// })
+
 const theme = ThemeManager.getDefaultTheme()
 
 const themeStyles = (state = theme.themeStyles, action) => {
@@ -230,23 +227,25 @@ const store = createStore(
 
 store.dispatch(dataIsLoading())
 
+// Prereq: open pouchdb docs
+//         open actioncreators.js
+// 1) Add new item into pouch.  Show data in pouch.
+// 2) First call db.allDocs, top 5 in desc order and
+//   dispatch our log entries into our redux “log” store.
+// 3)  list.js - Paint the list items from redux log store.
+
 db
 	.allDocs({
 		include_docs: true,
 		limit: 5,
 		descending: true
 	})
-	.then(function(result) {
-		store.dispatch(setLog(map(row => row.doc, result.rows)))
-	})
-	.catch(function(err) {
-		console.log(err)
-	})
+	.then(res => store.dispatch(setLog(map(row => row.doc, res.rows))))
+	.catch(err => console.log(err))
 
 db
 	.changes({
-		live: true,
-		include_docs: true
+		live: true
 	})
 	.on('change', function(change) {
 		db

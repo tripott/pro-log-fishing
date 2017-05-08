@@ -3,18 +3,18 @@ import { connect } from 'react-redux'
 import { map, take, prop, sortWith, descend, compose } from 'ramda'
 import ListItem from './LogEntryListItem'
 import { Link } from 'react-router-dom'
-
+import { FloatingButton } from 'react-buttons'
 const List = props => {
-	const sortByDateTime = sortWith([descend(prop('startDateTime'))])
-
 	var count = 0
 	var bgColor = 'bg-black-10'
+
 	const li = map(logEntry => {
 		count = count + 1
 		count % 2 === 0 ? (bgColor = 'bg-black-10') : (bgColor = 'bg-black-30')
 
 		return (
 			<ListItem
+				themeStyles={props.themeStyles}
 				key={logEntry.startDateTime}
 				logEntry={logEntry}
 				backgroundColor={bgColor}
@@ -24,11 +24,7 @@ const List = props => {
 		)
 	})
 
-	const listItems = compose(li, sortByDateTime)(props.log)
-
-	//const listItems = map(logEntry =>  <ListItem key={logEntry.startDateTime} logEntry={logEntry} {...props} />, props.log)
 	const status = props.dbStatus
-
 	let statusTextColor = 'black-70'
 
 	switch (status) {
@@ -57,23 +53,13 @@ const List = props => {
 			statusTextColor = 'black-70'
 	}
 
+	const listItems = li(props.log)
+
 	return (
 		<div>
 			<div className="pa4 tc">
 				<h1 className="f2 fw1">Fishing Log</h1>
-				<div>
-					<Link
-						className="link dt w-100 bb b--black-10 pb4 mt2 dim blue"
-						to="/log/new"
-					>
-						<a
-							href=""
-							className="f6 no-underline black bg-animate hover-bg-black hover-white inline-flex items-center pa2 ba border-box mr3"
-						>
-							<span className="pl2 pr2">Add</span>
-						</a>
-					</Link>
-				</div>
+
 				<main>
 					<div className="cf">
 						{listItems}
@@ -89,6 +75,15 @@ const List = props => {
 					</p>
 				</div>
 			</footer>
+			<div>
+				<Link className="dim blue" to="/log/new">
+					<FloatingButton
+						faIcon="map-marker"
+						label="Add a fishing spot"
+						onClick={e => e}
+					/>
+				</Link>
+			</div>
 		</div>
 	)
 }
@@ -96,7 +91,8 @@ const List = props => {
 const mapStateToProps = function(state) {
 	return {
 		log: state.log,
-		dbStatus: state.dbStatus
+		dbStatus: state.dbStatus,
+		themeStyles: state.themeStyles
 	}
 }
 

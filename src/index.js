@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import store from './store'
 import 'tachyons/css/tachyons.css'
 import 'font-awesome/css/font-awesome.css'
+import 'react-buttons/dist/react-buttons.css'
 
 ReactDOM.render(
 	<Provider store={store}>
