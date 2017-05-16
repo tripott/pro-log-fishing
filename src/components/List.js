@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { map, take, prop, sortWith, descend, compose } from 'ramda'
+import { map } from 'ramda'
 import ListItem from './LogEntryListItem'
 import { Link } from 'react-router-dom'
 import { FloatingButton } from 'react-buttons'
@@ -9,7 +9,7 @@ const List = props => {
 	var bgColor = 'bg-black-10'
 
 	const li = map(logEntry => {
-		count = count + 1
+		count += 1
 		count % 2 === 0 ? (bgColor = 'bg-black-10') : (bgColor = 'bg-black-30')
 
 		return (

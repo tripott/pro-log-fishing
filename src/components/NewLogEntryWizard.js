@@ -1,6 +1,5 @@
 import React from 'react'
 import { TextField, Panel } from 'jrs-react-components'
-//import  Panel  from './Panel'
 import { equals, identity } from 'ramda'
 import { connect } from 'react-redux'
 import {
@@ -21,14 +20,6 @@ import {
 } from '../actions/actioncreators'
 
 import moment from 'moment'
-// import geolocation from '../geolocation'
-
-// <Panel
-//   themeStyles={props.themeStyles}
-//   title='New Spot (Step 1 of 2)'
-//   onNext={e => props.next('step2')}
-//   >
-
 const PouchDB = require('pouchdb')
 const db = new PouchDB('fishing')
 
