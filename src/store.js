@@ -148,9 +148,6 @@ const panel = (state = 'step1', action) => {
 
 ThemeManager.addTheme(light)
 
-// ThemeManager.replaceThemeStyles('light', {
-//   button: ''
-// })
 const theme = ThemeManager.getDefaultTheme()
 
 const themeStyles = (state = theme.themeStyles, action) => {
