@@ -29,4 +29,5 @@ export const SYNC_DENIED = 'SYNC_DENIED'
 export const SYNC_ERROR = 'SYNC_ERROR'
 export const LOADING_DATA = 'LOADING_DATA'
 
-//const GET_LOCATION = 'GET_LOCATION';
+// AUTH ACTIONS
+export const SET_SESSION = 'SET_SESSION'

@@ -6,6 +6,7 @@
     "react-scripts": "0.9.5"
   },
   "dependencies": {
+    "auth0-js": "^8.8.0",
     "dotenv": "^4.0.0",
     "font-awesome": "^4.7.0",
     "google-maps-react": "^1.0.19",
