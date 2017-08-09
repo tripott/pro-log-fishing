@@ -65,7 +65,7 @@ const logReducer = (log = initialLog, action) => {
   }
 }
 
-const dbStatusReducer = function (status = 'unknown', action) {
+const dbStatusReducer = function(status = 'unknown', action) {
   switch (action.type) {
     case LOADING_DATA:
       return action.payload
@@ -170,117 +170,54 @@ const store = createStore(
 
 store.dispatch(dataIsLoading())
 
-// Prereq: open pouchdb docs
-// 				 open couch in cloudant: https://cloudant.com/sign-in/
-//         open actioncreators.js
-//				 open List.js
-// 1) Add new item into pouch.  Show data in pouch.
-// 2) First call db.allDocs, top 5 in desc order and
-//   dispatch our log entries into our redux “log” store.
-// 3)  list.js - Paint the list items from redux log store.
 const getAllDocsFromPouch = () => {
   db
     .allDocs({ include_docs: true, limit: 5, descending: true })
     .then(res => store.dispatch(setLog(map(row => row.doc, res.rows))))
-    .catch(function (err) {
+    .catch(function(err) {
       console.log(err)
     })
 }
 
 getAllDocsFromPouch()
 
+db
+  .changes({ live: true })
+  .on('change', function(change) {
+    getAllDocsFromPouch()
+  })
+  .on('complete', function(info) {
+    store.dispatch(syncChanged())
+  })
+  .on('error', function(err) {
+    store.dispatch(syncErroring())
+    console.log(err)
+  })
 
-db.changes({live:true}).on('change', function(change){
-  getAllDocsFromPouch()
-}).on('complete', function(info){
-  store.dispatch(syncChanged())
-}).on('error', function(err){
-  store.dispatch(syncErroring())
-  console.log(err)
+PouchDB.sync('fishing', process.env.REACT_APP_COUCHDB, {
+  live: true,
+  retry: true
 })
-
-PouchDB.sync('fishing', process.env.REACT_APP_COUCHDB, {live: true, retry: true})
-.on('change', function (info){
-  store.dispatch(syncChanged())
-})
-.on('paused', function (err) {
+  .on('change', function(info) {
+    store.dispatch(syncChanged())
+  })
+  .on('paused', function(err) {
     // replication paused (e.g. replication up to date, user went offline)
     store.dispatch(syncPaused())
   })
-  .on('active', function () {
+  .on('active', function() {
     // replicate resumed (e.g. new changes replicating, user went back online)
     store.dispatch(syncResumed())
   })
-  .on('denied', function (err) {
+  .on('denied', function(err) {
     // a document failed to replicate (e.g. due to permissions)
     store.dispatch(syncDenied())
   })
-  .on('complete', function (info) {
+  .on('complete', function(info) {
     store.dispatch(syncCompleted())
   })
-  .on('error', function (err) {
+  .on('error', function(err) {
     store.dispatch(syncErroring())
   })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// db.changes({ live: true }).on('change', function (change) {
-//   getAllDocsFromPouch()
-// }).on('complete', function (info) {
-//   store.dispatch(syncChanged())
-// }).on('error', function (err) {
-//   store.dispatch(syncErroring())
-//   console.log(err)
-// })
-//
-//
-// PouchDB
-//   .sync('fishing', process.env.REACT_APP_COUCHDB, { live: true, retry: true })
-//   .on('change', function (info) {
-//     store.dispatch(syncChanged())
-//   })
-//   .on('paused', function (err) {
-//     // replication paused (e.g. replication up to date, user went offline)
-//     store.dispatch(syncPaused())
-//   })
-//   .on('active', function () {
-//     // replicate resumed (e.g. new changes replicating, user went back online)
-//     store.dispatch(syncResumed())
-//   })
-//   .on('denied', function (err) {
-//     // a document failed to replicate (e.g. due to permissions)
-//     store.dispatch(syncDenied())
-//   })
-//   .on('complete', function (info) {
-//     store.dispatch(syncCompleted())
-//   })
-//   .on('error', function (err) {
-//     store.dispatch(syncErroring())
-//   })
-
 
 export default store
