@@ -5,6 +5,7 @@ import ListItem from './LogEntryListItem'
 import { Link } from 'react-router-dom'
 import { FloatingButton } from 'react-buttons'
 import MainHeader from './MainHeader'
+
 const List = props => {
   var count = 0
   var bgColor = 'bg-black-10'
@@ -56,6 +57,7 @@ const List = props => {
 
   const listItems = li(props.log)
 
+//  console.log('List.js is being rendered')
   return (
     <div>
       <MainHeader title="ProLog" auth={props.auth} target="/log/new" />
@@ -90,10 +92,12 @@ const List = props => {
 }
 
 const mapStateToProps = function(state) {
+  //console.log('state session: ', JSON.stringify(state.session, null, 2))
   return {
     log: state.log,
     dbStatus: state.dbStatus,
-    themeStyles: state.themeStyles
+    themeStyles: state.themeStyles,
+    session: state.session
   }
 }
 

@@ -1,13 +1,25 @@
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
-
+//console.log('store.js')
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { ThemeManager } from 'jrs-react-components'
 import { light } from 'jrs-react-components-themes'
-import { map, merge } from 'ramda'
+
+import {
+
+  merge,
+  mergeDeepRight,
+  cond,
+  always,
+  equals,
+  T,
+
+} from 'ramda'
 const PouchDB = require('pouchdb')
+//PouchDB.plugin(require('pouchdb-find'))
+//const db = new PouchDB('fishing')
 
 import {
   PREVIOUS_NEW_LOG_ENTRY_PANEL,
@@ -33,18 +45,22 @@ import {
   SYNC_PAUSED,
   SYNC_ACTIVE,
   SYNC_DENIED,
-  SYNC_ERROR
+  SYNC_ERROR,
+  SET_USER_X,
+  SET_USER,
+  SET_SESSION,
+  SET_LOG_ENTRY_AUTH_PROFILE_ID
 } from './actions/actions'
 
 import {
   dataIsLoading,
-  setLog,
-  syncCompleted,
-  syncErroring,
-  syncChanged,
-  syncPaused,
-  syncResumed,
-  syncDenied
+  //setLog,
+  //syncCompleted,
+  //syncErroring,
+//  syncChanged,
+  //syncPaused,
+  //syncResumed,
+  //syncDenied
 } from './actions/actioncreators'
 
 // PouchDB Inspector -
@@ -53,7 +69,6 @@ import {
 // https://chrome.google.com/webstore/detail/pouchdb-inspector/hbhhpaojmpfimakffndmpmpndcmonkfa?hl=en
 window.PouchDB = PouchDB
 
-const db = new PouchDB('fishing')
 const initialLog = []
 
 const logReducer = (log = initialLog, action) => {
@@ -86,6 +101,7 @@ const dbStatusReducer = function(status = 'unknown', action) {
 
 const newLogEntry = {
   _id: null,
+  authProfileID: null,
   name: '',
   type: 'entry',
   tide: { height: 0, units: 'ft', stage: 'Rising' },
@@ -124,6 +140,8 @@ const editSingleLogEntryReducer = (state = newLogEntry, action) => {
       return merge(state, { fishes: action.payload })
     case SET_LOG_ENTRY_RATING:
       return merge(state, { rating: action.payload })
+    case SET_LOG_ENTRY_AUTH_PROFILE_ID:
+      return merge(state, { authProfileID: action.payload })
     case RESET_LOG_ENTRY:
       return newLogEntry
     case SET_LOG_ENTRY_FOR_EDIT:
@@ -157,67 +175,57 @@ const themeStyles = (state = theme.themeStyles, action) => {
   }
 }
 
+function user(state = {}, action) {
+  return cond([
+    [
+      equals(SET_USER_X + 'FIRSTNAME'),
+      type => mergeDeepRight(state, { user: { firstName: action.payload } })
+    ],
+    [
+      equals(SET_USER_X + 'LASTNAME'),
+      type => mergeDeepRight(state, { user: { lastName: action.payload } })
+    ],
+    [
+      equals(SET_USER_X + 'PRIMARYPHONE'),
+      type => mergeDeepRight(state, { user: { primaryPhone: action.payload } })
+    ],
+    [
+      equals(SET_USER_X + 'PRIMARYEMAIL'),
+      type => mergeDeepRight(state, { user: { primaryEmail: action.payload } })
+    ],
+    [
+      equals(SET_USER_X + 'ISADMIN'),
+      type => mergeDeepRight(state, { user: { isAdmin: action.payload } })
+    ],
+    [
+      equals(SET_USER_X + 'PHOTO'),
+      type => mergeDeepRight(state, { user: { photo: action.payload } })
+    ],
+    [equals(SET_USER), type => merge(state, { user: action.payload })],
+    [T, always(state)]
+  ])(action.type)
+}
+
+function session(state = { access_token: '' }, action) {
+  return cond([
+    [equals(SET_SESSION), always(action.payload)],
+    [T, always(state)]
+  ])(action.type)
+}
+
 const store = createStore(
   combineReducers({
     log: logReducer,
     dbStatus: dbStatusReducer,
     logEntry: editSingleLogEntryReducer,
-    panel: panel,
-    themeStyles: themeStyles
+    panel,
+    themeStyles: themeStyles,
+    user,
+    session
   }),
   applyMiddleware(thunk)
 )
 
 store.dispatch(dataIsLoading())
-
-const getAllDocsFromPouch = () => {
-  db
-    .allDocs({ include_docs: true, limit: 5, descending: true })
-    .then(res => store.dispatch(setLog(map(row => row.doc, res.rows))))
-    .catch(function(err) {
-      console.log(err)
-    })
-}
-
-getAllDocsFromPouch()
-
-db
-  .changes({ live: true })
-  .on('change', function(change) {
-    getAllDocsFromPouch()
-  })
-  .on('complete', function(info) {
-    store.dispatch(syncChanged())
-  })
-  .on('error', function(err) {
-    store.dispatch(syncErroring())
-    console.log(err)
-  })
-
-PouchDB.sync('fishing', process.env.REACT_APP_COUCHDB, {
-  live: true,
-  retry: true
-})
-  .on('change', function(info) {
-    store.dispatch(syncChanged())
-  })
-  .on('paused', function(err) {
-    // replication paused (e.g. replication up to date, user went offline)
-    store.dispatch(syncPaused())
-  })
-  .on('active', function() {
-    // replicate resumed (e.g. new changes replicating, user went back online)
-    store.dispatch(syncResumed())
-  })
-  .on('denied', function(err) {
-    // a document failed to replicate (e.g. due to permissions)
-    store.dispatch(syncDenied())
-  })
-  .on('complete', function(info) {
-    store.dispatch(syncCompleted())
-  })
-  .on('error', function(err) {
-    store.dispatch(syncErroring())
-  })
 
 export default store

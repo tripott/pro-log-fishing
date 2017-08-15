@@ -7,7 +7,9 @@ import NewLogEntryWizard from './components/NewLogEntryWizard'
 import Auth from './auth'
 import Login from './components/Login'
 import Callback from './components/Callback'
+import UserError from './components/UserError'
 
+//console.log("1 App.js calling Auth()")
 const auth = Auth()
 
 const handleAuthentication = (nextState, replace) => {
@@ -15,23 +17,6 @@ const handleAuthentication = (nextState, replace) => {
     auth.handleAuthentication()
   }
 }
-//
-// <Route
-//   exact
-//   path="/log/new"
-//   render={props => <NewLogEntryWizard {...props} />}
-// />
-
-// <Route
-//   path="/log/:id"
-//   render={props => <LogEntryDetail {...props} />}
-// />
-
-// <Route
-//   exact
-//   path="/log"
-//   render={props => <List auth={auth} {...props} />}
-// />
 
 const App = () => {
   return (
@@ -47,7 +32,10 @@ const App = () => {
             <PrivateRoute path="/log/new" component={NewLogEntryWizard} />
             <PrivateRoute path="/log/:id" component={LogEntryDetail} />
             <PrivateRoute path="/log" component={List} />
-
+            <Route
+              path="/usererror"
+              render={props => <UserError auth={auth} {...props} />}
+            />
             <Route path="/credits" render={props => <Credits {...props} />} />
             <Route
               path="/callback"

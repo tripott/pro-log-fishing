@@ -1,9 +1,11 @@
 //import auth0 from 'auth0-js'
 import history from './history'
 import { SET_SESSION } from './actions/actions'
-
+import { createOrSetCurrentUser } from './actions/actioncreators'
+import {getDBLogEntries, listen, sync} from './syncronize'
 import store from './store'
 import auth0 from 'auth0-js'
+import { pathOr } from 'ramda'
 //import { getOrCreateUser } from './db'
 
 export default () => {
@@ -17,6 +19,9 @@ export default () => {
   })
 
   if (isAuthenticated()) {
+    //console.log(
+    //  'isAuthenticated is true, about to dispatch session from local storage'
+    //)
     // dispatch our session
     //     store.dispatch(getOrCreateUser({
     //       access_token: localStorage.getItem('access_token'),
@@ -25,15 +30,26 @@ export default () => {
     //       profile: JSON.parse(localStorage.getItem('profile') || {})
     //     }))
 
+    const sessionPayload = {
+      access_token: localStorage.getItem('access_token'),
+      id_token: localStorage.getItem('id_token'),
+      expires_at: localStorage.getItem('expiresAt'),
+      profile: JSON.parse(localStorage.getItem('profile') || {})
+    }
+
     store.dispatch({
       type: SET_SESSION,
-      payload: {
-        access_token: localStorage.getItem('access_token'),
-        id_token: localStorage.getItem('id_token'),
-        expires_at: localStorage.getItem('expiresAt'),
-        profile: JSON.parse(localStorage.getItem('profile') || {})
-      }
+      payload: sessionPayload
     })
+
+    const profileSub = pathOr(null, ['profile','sub'], sessionPayload )
+
+    if (profileSub) {
+      getDBLogEntries(profileSub)
+      listen(profileSub)
+      sync(profileSub)
+    }
+
   }
 
   return {
@@ -71,9 +87,11 @@ export default () => {
 
       console.log('authResult ', authResult)
       console.log('profile ', profile)
+
       let expiresAt = JSON.stringify(
         authResult.expiresIn * 1000 + new Date().getTime()
       )
+
       localStorage.setItem('access_token', authResult.accessToken)
       localStorage.setItem('id_token', authResult.idToken)
       localStorage.setItem('expires_at', expiresAt)
@@ -90,11 +108,7 @@ export default () => {
         }
       })
 
-      //TODO: dispatch thunk to see if user exists in db.
-      //TODO: protect private routes
-      //TODO: filter replication
-      // navigate to the home route
-      history.push('/log')
+      store.dispatch(createOrSetCurrentUser(profile, history))
     })
   }
 
@@ -116,6 +130,7 @@ export default () => {
     // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'))
+//    console.log('isAuthenticated()?', new Date().getTime() < expiresAt)
     return new Date().getTime() < expiresAt
   }
 }

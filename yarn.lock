@@ -3474,6 +3474,12 @@ lie@3.1.0:
   dependencies:
     immediate "~3.0.5"
 
+lie@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/lie/-/lie-3.1.1.tgz#9a436b2cc7746ca59de7a41fa469b3efb76bd87e"
+  dependencies:
+    immediate "~3.0.5"
+
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"
@@ -4465,6 +4471,91 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
+pouchdb-abstract-mapreduce@6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-abstract-mapreduce/-/pouchdb-abstract-mapreduce-6.3.4.tgz#0d8a11ec300e3affcacbf6e9618d3eccd3f2e9ce"
+  dependencies:
+    pouchdb-binary-utils "6.3.4"
+    pouchdb-collate "6.3.4"
+    pouchdb-collections "6.3.4"
+    pouchdb-mapreduce-utils "6.3.4"
+    pouchdb-md5 "6.3.4"
+    pouchdb-promise "6.3.4"
+    pouchdb-utils "6.3.4"
+
+pouchdb-binary-utils@6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-binary-utils/-/pouchdb-binary-utils-6.3.4.tgz#9bfd1b4b3d8caccfd2b6046b1316b4f70afea9f6"
+  dependencies:
+    buffer-from "0.1.1"
+
+pouchdb-collate@6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-collate/-/pouchdb-collate-6.3.4.tgz#4f03245b3309fdd5f937caffc9efa0e8ee591b4d"
+
+pouchdb-collections@6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-collections/-/pouchdb-collections-6.3.4.tgz#24f4dd3d7aabd630b2f5f26353fe09ddd4ef7afa"
+
+pouchdb-errors@6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-errors/-/pouchdb-errors-6.3.4.tgz#abc1a84242e9276a1102e5cba1802aa08e5be45a"
+  dependencies:
+    inherits "2.0.3"
+
+pouchdb-find@^6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-find/-/pouchdb-find-6.3.4.tgz#27163e3d9a82bab2cc6db1deb73447762e8bd705"
+  dependencies:
+    pouchdb-abstract-mapreduce "6.3.4"
+    pouchdb-collate "6.3.4"
+    pouchdb-md5 "6.3.4"
+    pouchdb-promise "6.3.4"
+    pouchdb-selector-core "6.3.4"
+    pouchdb-utils "6.3.4"
+
+pouchdb-mapreduce-utils@6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-mapreduce-utils/-/pouchdb-mapreduce-utils-6.3.4.tgz#0d85fb7cc1faf078afc638fdf07d9db3ce8fdaa6"
+  dependencies:
+    argsarray "0.0.1"
+    inherits "2.0.3"
+    pouchdb-collections "6.3.4"
+    pouchdb-utils "6.3.4"
+
+pouchdb-md5@6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-md5/-/pouchdb-md5-6.3.4.tgz#364987fa184a33a48cfc7eb175a279fca113a4e8"
+  dependencies:
+    pouchdb-binary-utils "6.3.4"
+    spark-md5 "3.0.0"
+
+pouchdb-promise@6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-promise/-/pouchdb-promise-6.3.4.tgz#817052fa2320293dd2dbc4be2f1cc81b02be30c2"
+  dependencies:
+    lie "3.1.1"
+
+pouchdb-selector-core@6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-selector-core/-/pouchdb-selector-core-6.3.4.tgz#116958b1af9d7147143da5a5e6ee74de128a9fbc"
+  dependencies:
+    pouchdb-collate "6.3.4"
+    pouchdb-utils "6.3.4"
+
+pouchdb-utils@6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/pouchdb-utils/-/pouchdb-utils-6.3.4.tgz#3926541ae439c019d9738d5e5c3aa9bb110e6a25"
+  dependencies:
+    argsarray "0.0.1"
+    clone-buffer "1.0.0"
+    immediate "3.0.6"
+    inherits "2.0.3"
+    pouchdb-collections "6.3.4"
+    pouchdb-errors "6.3.4"
+    pouchdb-promise "6.3.4"
+    uuid "^3.1.0"
+
 pouchdb@^6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/pouchdb/-/pouchdb-6.1.2.tgz#5ceb310f705f0a7fd23d25fe1a365f36b30ac28b"
@@ -4633,6 +4724,10 @@ querystringify@0.0.x:
 ramda@^0.23.0:
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.23.0.tgz#ccd13fff73497a93974e3e86327bfd87bd6e8e2b"
+
+ramda@^0.24.1:
+  version "0.24.1"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.24.1.tgz#c3b7755197f35b8dc3502228262c4c91ddb6b857"
 
 randomatic@^1.1.3:
   version "1.1.6"
@@ -5776,6 +5871,10 @@ uuid@^2.0.2:
 uuid@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
+
+uuid@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.1"
