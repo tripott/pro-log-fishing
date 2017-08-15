@@ -60,7 +60,7 @@ const List = props => {
 //  console.log('List.js is being rendered')
   return (
     <div>
-      <MainHeader title="ProLog" auth={props.auth} target="/log/new" />
+      <MainHeader session={props.session} title="ProLog" auth={props.auth} target="/log/new" />
       <div className="pa4 tc">
 
         <main>
