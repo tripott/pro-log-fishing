@@ -16,7 +16,7 @@ const MainHeader = props => {
         />
       </div>
 
-      <div>Welcome, {props.session.profile.name} to {props.title}</div>
+      <div className="f5 f4-ns fw2 black-70">Welcome, {props.session.profile.name} to {props.title}</div>
       <div className="mr2">
         <Link className="black" to={props.target}>
 

@@ -4,8 +4,8 @@ PouchDB.plugin(require('pouchdb-find'))
 const db = new PouchDB('fishing')
 
 import {
-//  dataIsLoading,
   setLog,
+  setMoreLog,
   syncCompleted,
   syncErroring,
   syncChanged,
@@ -14,19 +14,62 @@ import {
   syncDenied
 } from './actions/actioncreators'
 
-export const getDBLogEntries = profileSub => {
-//  console.log('getAllLogEntriesFromPouch store.getState()', store.getState())
+export const getMoreDBLogEntries = (profileSub, lastItem, limit)  => {
 
-  const query = {
+  lastItem = lastItem ? lastItem : null
+  limit = limit ? limit : 5
+
+  let query = lastItem ?  {
     selector: {
       type: 'entry',
-      authProfileID: profileSub
+      authProfileID: profileSub,
+      startDateTime: {$lt: lastItem}
     },
     sort: [
       { type: 'desc' },
       { authProfileID: 'desc' },
       { startDateTime: 'desc' }
-    ]
+    ],
+    limit
+  } : {
+    selector: {
+      type: 'entry',
+      authProfileID: profileSub,
+      startDateTime: {$gte: null}
+    },
+    sort: [
+      { type: 'desc' },
+      { authProfileID: 'desc' },
+      { startDateTime: 'desc' }
+    ],
+    limit
+  }
+
+  db
+    .find(query)
+    .then(res => store.dispatch(setMoreLog(res.docs)))
+    .catch(function(err) {
+      console.log(err)
+    })
+}
+
+export const getDBLogEntries = (profileSub, limit)  => {
+
+  limit = limit ? limit : 5
+
+
+  let query = {
+    selector: {
+      type: 'entry',
+      authProfileID: profileSub,
+      startDateTime: {$gte: null}
+    },
+    sort: [
+      { type: 'desc' },
+      { authProfileID: 'desc' },
+      { startDateTime: 'desc' }
+    ],
+    limit
   }
 
   db
@@ -36,6 +79,7 @@ export const getDBLogEntries = profileSub => {
       console.log(err)
     })
 }
+
 
 export const listen = profileSub => {
   db
@@ -52,8 +96,42 @@ export const listen = profileSub => {
     })
 }
 
-export const sync = profileSub => {
-  PouchDB.sync('fishing', process.env.REACT_APP_COUCHDB, {
+
+ // user security and one user per db.
+ // See https://subvisual.co/blog/posts/130-how-to-build-offline-web-applications-with-couchdb-and-pouchdb/
+ // const remoteDatabase = new PouchDB(process.env.REACT_APP_COUCHDB, {
+ //    skipSetup: true,
+ //    ajax: {
+ //      headers: {
+ //        'X-Auth-CouchDB-UserName': `${currentUser.id}`,
+ //        'X-Auth-CouchDB-Roles': 'users',
+ //        'X-Auth-CouchDB-Token': currentUser.couchdb_token,
+ //        'Content-Type': 'application/json; charset=utf-8'
+ //      }
+ //    }
+ //  })
+
+export const sync = (profileSub, token) => {
+  // const remoteDatabase = new PouchDB(process.env.REACT_APP_COUCHDB, {
+  //    skipSetup: true,
+  //    ajax: {
+  //      headers: {
+  //        'Content-Type': 'application/json; charset=utf-8',
+  //        'Authorization': 'Bearer ' + token
+  //      }
+  //    }
+  //  })
+
+   const remoteDatabase = new PouchDB(process.env.REACT_APP_COUCHDB, {
+      ajax: {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'Bearer ' + token
+        }
+      }
+    })
+
+  PouchDB.sync('fishing', remoteDatabase, {
     live: true,
     retry: true,
     filter: 'filteredReplication/myfilter',

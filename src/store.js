@@ -8,7 +8,7 @@ import { ThemeManager } from 'jrs-react-components'
 import { light } from 'jrs-react-components-themes'
 
 import {
-
+  concat,
   merge,
   mergeDeepRight,
   cond,
@@ -26,6 +26,7 @@ import {
   NEXT_NEW_LOG_ENTRY_PANEL,
   RESET_NEW_LOG_ENTRY_PANEL,
   SET_LOG,
+  SET_MORE_LOG,
   SET_LOG_ENTRY_ID,
   SET_LOG_ENTRY_NAME,
   SET_LOG_ENTRY_TIDE,
@@ -75,6 +76,8 @@ const logReducer = (log = initialLog, action) => {
   switch (action.type) {
     case SET_LOG:
       return action.payload
+    case SET_MORE_LOG:
+      return concat(log, action.payload)
     default:
       return log
   }

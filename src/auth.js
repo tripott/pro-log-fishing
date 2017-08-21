@@ -5,7 +5,7 @@ import { createOrSetCurrentUser } from './actions/actioncreators'
 import {getDBLogEntries, listen, sync} from './syncronize'
 import store from './store'
 import auth0 from 'auth0-js'
-import { pathOr } from 'ramda'
+import { pathOr, propOr } from 'ramda'
 //import { getOrCreateUser } from './db'
 
 export default () => {
@@ -43,11 +43,13 @@ export default () => {
     })
 
     const profileSub = pathOr(null, ['profile','sub'], sessionPayload )
+    const token = propOr(null, 'id_token', sessionPayload )
 
     if (profileSub) {
+      sync(profileSub, token)
       getDBLogEntries(profileSub)
       listen(profileSub)
-      sync(profileSub)
+
     }
 
   }

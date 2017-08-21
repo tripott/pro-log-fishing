@@ -8,6 +8,7 @@ import {
   NEXT_NEW_LOG_ENTRY_PANEL,
   PREVIOUS_NEW_LOG_ENTRY_PANEL,
   SET_LOG,
+  SET_MORE_LOG,
   SYNC_COMPLETE,
   SYNC_CHANGE,
   SYNC_PAUSED,
@@ -217,6 +218,14 @@ export function setLog(logDocs) {
   //console.log('docs', JSON.stringify(logDocs, null, 2))
   return {
     type: SET_LOG,
+    payload: logDocs
+  }
+}
+
+export function setMoreLog(logDocs) {
+  //console.log('docs', JSON.stringify(logDocs, null, 2))
+  return {
+    type: SET_MORE_LOG,
     payload: logDocs
   }
 }

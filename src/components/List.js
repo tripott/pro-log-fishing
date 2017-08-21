@@ -1,10 +1,14 @@
 import React from 'react'
+
 import { connect } from 'react-redux'
-import { map } from 'ramda'
+import { map, last, propOr, compose, prop } from 'ramda'
 import ListItem from './LogEntryListItem'
 import { Link } from 'react-router-dom'
-import { FloatingButton } from 'react-buttons'
+import { FloatingButton, IconButton } from 'react-buttons'
 import MainHeader from './MainHeader'
+import {
+  getMoreDBLogEntries,
+  getDBLogEntries, listen, sync} from '../syncronize'
 
 const List = props => {
   var count = 0
@@ -57,6 +61,11 @@ const List = props => {
 
   const listItems = li(props.log)
 
+  const profileSub = props.session.profile.sub
+  const limit = propOr(5, 'limit', props)
+  const lastItem = compose(propOr(null, 'startDateTime'), last)(propOr([], 'log', props))
+
+
 //  console.log('List.js is being rendered')
   return (
     <div>
@@ -68,6 +77,15 @@ const List = props => {
             {listItems}
           </div>
         </main>
+        <div>
+            <IconButton
+              faIcon="step-forward"
+              label="Next log entries"
+              onClick={e => {
+    						props.getMoreLog(profileSub, lastItem, limit)
+    					}}
+            />
+        </div>
 
       </div>
 
@@ -78,6 +96,7 @@ const List = props => {
           </p>
         </div>
       </footer>
+
       <div>
         <Link className="dim blue" to="/log/new">
           <FloatingButton
@@ -101,5 +120,15 @@ const mapStateToProps = function(state) {
   }
 }
 
-const connector = connect(mapStateToProps)
+const mapActionsToProps = dispatch => {
+	return {
+		getMoreLog: (profileSub, lastItem, limit) => {
+      console.log("getMoreLog")
+      getMoreDBLogEntries(profileSub, lastItem, limit)
+
+		}
+	}
+}
+
+const connector = connect(mapStateToProps, mapActionsToProps)
 export default connector(List)

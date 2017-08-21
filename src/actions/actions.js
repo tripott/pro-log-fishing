@@ -1,5 +1,6 @@
 // LOG ACTIONS
 export const SET_LOG = 'SET_LOG'
+export const SET_MORE_LOG = 'SET_MORE_LOG'
 export const SET_LOG_ENTRY_ID = 'SET_LOG_ENTRY_ID'
 export const SET_LOG_ENTRY_NAME = 'SET_LOG_ENTRY_NAME'
 export const SET_LOG_ENTRY_TIDE = 'SET_LOG_ENTRY_TIDE'
