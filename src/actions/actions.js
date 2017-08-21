@@ -1,5 +1,6 @@
 // LOG ACTIONS
 export const SET_LOG = 'SET_LOG'
+export const SET_MORE_LOG = 'SET_MORE_LOG'
 export const SET_LOG_ENTRY_ID = 'SET_LOG_ENTRY_ID'
 export const SET_LOG_ENTRY_NAME = 'SET_LOG_ENTRY_NAME'
 export const SET_LOG_ENTRY_TIDE = 'SET_LOG_ENTRY_TIDE'
@@ -14,6 +15,7 @@ export const SET_LOG_ENTRY_FISHES = 'SET_LOG_ENTRY_FISHES'
 export const SET_LOG_ENTRY_RATING = 'SET_LOG_ENTRY_RATING'
 export const RESET_LOG_ENTRY = 'RESET_LOG_ENTRY'
 export const SET_LOG_ENTRY_FOR_EDIT = 'SET_LOG_ENTRY_FOR_EDIT'
+export const SET_LOG_ENTRY_AUTH_PROFILE_ID = 'SET_LOG_ENTRY_AUTH_PROFILE_ID'
 
 // WIZARD ACTIONS
 export const ADD = 'ADD'
@@ -29,4 +31,8 @@ export const SYNC_DENIED = 'SYNC_DENIED'
 export const SYNC_ERROR = 'SYNC_ERROR'
 export const LOADING_DATA = 'LOADING_DATA'
 
-//const GET_LOCATION = 'GET_LOCATION';
+// AUTH ACTIONS
+export const SET_SESSION = 'SET_SESSION'
+export const SET_USER_X = 'SET_USER_'
+export const SET_USER = 'SET_USER'
+export const CLEAR_PROFILE = 'CLEAR_USER'
